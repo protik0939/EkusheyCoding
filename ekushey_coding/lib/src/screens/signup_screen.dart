@@ -154,10 +154,12 @@ class _SignupScreenState extends State<SignupScreen> {
                             ),
                           ),
                           validator: (value) {
-                            if ((value ?? '').isEmpty)
+                            if ((value ?? '').isEmpty) {
                               return 'Confirm your password';
-                            if (value != _passwordCtrl.text)
+                            }
+                            if (value != _passwordCtrl.text) {
                               return 'Passwords do not match';
+                            }
                             return null;
                           },
                         ),

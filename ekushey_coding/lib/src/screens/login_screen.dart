@@ -111,8 +111,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           validator: (value) {
-                            if ((value ?? '').isEmpty)
+                            if ((value ?? '').isEmpty) {
                               return 'Password is required';
+                            }
                             return null;
                           },
                         ),

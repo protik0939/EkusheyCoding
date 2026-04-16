@@ -198,8 +198,9 @@ class ContentService {
   }) async {
     final query = <String, String>{'page': '$page', 'per_page': '$perPage'};
     if (search != null && search.isNotEmpty) query['search'] = search;
-    if (category != null && category.isNotEmpty && category != 'All')
+    if (category != null && category.isNotEmpty && category != 'All') {
       query['category'] = category;
+    }
 
     final response = await _api.get('/blogs', query: query);
     final map = (response ?? <String, dynamic>{}) as Map<String, dynamic>;
@@ -231,8 +232,9 @@ class ContentService {
     final list = (response as List<dynamic>? ?? <dynamic>[])
         .map((e) {
           if (e is String) return e;
-          if (e is Map<String, dynamic>)
+          if (e is Map<String, dynamic>) {
             return (e['category'] ?? e['category_bn'] ?? '').toString();
+          }
           return '';
         })
         .where((value) => value.isNotEmpty)
@@ -255,10 +257,12 @@ class ContentService {
       'status': 'published',
     };
     if (search != null && search.isNotEmpty) query['search'] = search;
-    if (difficulty != null && difficulty.isNotEmpty && difficulty != 'all')
+    if (difficulty != null && difficulty.isNotEmpty && difficulty != 'all') {
       query['difficulty'] = difficulty;
-    if (languageId != null && languageId.isNotEmpty && languageId != 'all')
+    }
+    if (languageId != null && languageId.isNotEmpty && languageId != 'all') {
       query['language_id'] = languageId;
+    }
 
     final response = await _api.get('/exercises', query: query);
     final map = (response ?? <String, dynamic>{}) as Map<String, dynamic>;
@@ -283,9 +287,12 @@ class ContentService {
     bool publishedOnly = true,
   }) async {
     final query = <String, String>{};
-    if (languageId != null && languageId.isNotEmpty)
+    if (languageId != null && languageId.isNotEmpty) {
       query['language_id'] = languageId;
-    if (publishedOnly) query['is_published'] = 'true';
+    }
+    if (publishedOnly) {
+      query['is_published'] = 'true';
+    }
 
     final response = await _api.get('/tutorials', query: query);
     if (response is List<dynamic>) {
@@ -395,8 +402,9 @@ class AdminService {
     };
 
     if (search != null && search.isNotEmpty) query['search'] = search;
-    if (status != null && status.isNotEmpty && status != 'all')
+    if (status != null && status.isNotEmpty && status != 'all') {
       query['status'] = status;
+    }
 
     final response = await _api.get('/admin/blogs', token: token, query: query);
     final map = (response ?? <String, dynamic>{}) as Map<String, dynamic>;
@@ -432,10 +440,12 @@ class AdminService {
     };
 
     if (search != null && search.isNotEmpty) query['search'] = search;
-    if (status != null && status.isNotEmpty && status != 'all')
+    if (status != null && status.isNotEmpty && status != 'all') {
       query['status'] = status;
-    if (difficulty != null && difficulty.isNotEmpty && difficulty != 'all')
+    }
+    if (difficulty != null && difficulty.isNotEmpty && difficulty != 'all') {
       query['difficulty'] = difficulty;
+    }
 
     final response = await _api.get(
       '/admin/exercises',
@@ -466,8 +476,9 @@ class AdminService {
   }) async {
     final query = <String, String>{};
     if (search != null && search.isNotEmpty) query['search'] = search;
-    if (languageId != null && languageId.isNotEmpty && languageId != 'all')
+    if (languageId != null && languageId.isNotEmpty && languageId != 'all') {
       query['language_id'] = languageId;
+    }
 
     final response = await _api.get(
       '/admin/tutorials',
