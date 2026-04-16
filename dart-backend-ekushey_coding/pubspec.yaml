@@ -1,0 +1,15 @@
+name: dart_backend_w3university
+description: Dart backend that mirrors backend-w3university Laravel API contracts.
+version: 1.0.0
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  shelf: ^1.4.2
+  shelf_router: ^1.1.4
+  shelf_cors_headers: ^0.1.5
+  crypto: ^3.0.3
+  postgres: ^3.5.9
+
+dev_dependencies:
+  lints: ^5.0.0

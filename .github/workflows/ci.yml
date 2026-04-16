@@ -1,0 +1,59 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+jobs:
+  flutter-frontend:
+    name: Flutter Frontend Checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: ekushey_coding
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Run tests
+        run: flutter test
+
+  dart-backend:
+    name: Dart Backend Checks
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: dart-backend-ekushey_coding
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Dart
+        uses: dart-lang/setup-dart@v1
+
+      - name: Install dependencies
+        run: dart pub get
+
+      - name: Analyze
+        run: dart analyze
+
+      - name: Run tests when available
+        run: |
+          if [ -d test ] && find test -name "*_test.dart" | grep -q .; then
+            dart test
+          else
+            echo "No backend tests found. Skipping dart test."
+          fi
