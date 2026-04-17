@@ -122,9 +122,7 @@ class ApiClient {
         path = path.substring(0, path.length - 1);
       }
 
-      return uri
-          .replace(path: path, query: null, fragment: null)
-          .toString();
+      return uri.replace(path: path, query: null, fragment: null).toString();
     } catch (_) {
       return trimmed.endsWith('/')
           ? trimmed.substring(0, trimmed.length - 1)
@@ -181,7 +179,8 @@ class ApiClient {
     required Future<http.Response> Function(
       Uri uri,
       Map<String, String> headers,
-    ) send,
+    )
+    send,
   }) async {
     final headers = _headers(token: token, isJson: isJson);
     final candidates = _orderedBaseUrls();
