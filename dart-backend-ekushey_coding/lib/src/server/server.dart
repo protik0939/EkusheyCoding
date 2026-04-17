@@ -8,6 +8,40 @@ import '../store.dart';
 import 'context.dart';
 import 'router.dart';
 
+bool isAddressInUse(SocketException error) {
+  final code = error.osError?.errorCode;
+  if (code == 10048 || code == 98) {
+    return true;
+  }
+
+  final message = error.message.toLowerCase();
+  return message.contains('address already in use') ||
+      message.contains('only one usage of each socket address');
+}
+
+Future<HttpServer> serveWithPortFallback(
+  Handler handler,
+  InternetAddress address,
+  int preferredPort, {
+  int maxPortRetries = 20,
+}) async {
+  for (var attempt = 0; attempt < maxPortRetries; attempt++) {
+    final port = preferredPort + attempt;
+    try {
+      if (attempt > 0) {
+        print('Port ${port - 1} is busy, retrying on port $port...');
+      }
+      return await shelf_io.serve(handler, address, port);
+    } on SocketException catch (e) {
+      if (!isAddressInUse(e) || attempt == maxPortRetries - 1) {
+        rethrow;
+      }
+    }
+  }
+
+  throw StateError('Could not start server on any fallback port.');
+}
+
 Future<void> runServer(InMemoryStore store) async {
   await store.initializePersistence();
   if (store.isPersistenceEnabled) {
@@ -25,10 +59,13 @@ Future<void> runServer(InMemoryStore store) async {
       .addMiddleware(api.persistStateMiddleware())
       .addHandler(router.call);
 
-  final server = await shelf_io.serve(
+  final preferredPort =
+      int.tryParse(Platform.environment['PORT'] ?? '8080') ?? 8080;
+
+  final server = await serveWithPortFallback(
     handler,
     InternetAddress.anyIPv4,
-    int.parse(Platform.environment['PORT'] ?? '8080'),
+    preferredPort,
   );
 
   print(
