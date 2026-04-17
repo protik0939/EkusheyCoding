@@ -1,5 +1,7 @@
+import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'models.dart';
@@ -32,17 +34,112 @@ class PaginatedList<T> {
 }
 
 class ApiClient {
-  ApiClient({String? baseUrl})
-    : baseUrl =
-          baseUrl ??
-          const String.fromEnvironment(
-            'API_BASE_URL',
-            defaultValue: 'http://localhost:8080/api',
-          );
+  ApiClient({String? baseUrl, http.Client? httpClient})
+    : _httpClient = httpClient ?? http.Client(),
+      _baseUrls = _resolveBaseUrls(baseUrl: baseUrl) {
+    _activeBaseUrl = _baseUrls.first;
+  }
 
-  final String baseUrl;
+  final http.Client _httpClient;
+  final List<String> _baseUrls;
+  late String _activeBaseUrl;
 
-  Uri _buildUri(String endpoint, [Map<String, String>? query]) {
+  String get baseUrl => _activeBaseUrl;
+
+  static List<String> _resolveBaseUrls({String? baseUrl}) {
+    final envBaseUrl = const String.fromEnvironment(
+      'API_BASE_URL',
+      defaultValue: '',
+    );
+
+    final candidates = <String>[
+      if (baseUrl != null && baseUrl.trim().isNotEmpty) baseUrl,
+      if (envBaseUrl.trim().isNotEmpty) envBaseUrl,
+      ..._platformDefaultBaseUrls(),
+      'http://localhost:8080/api',
+      'http://localhost:8081/api',
+    ];
+
+    final normalized = <String>[];
+    for (final candidate in candidates) {
+      final value = _normalizeBaseUrl(candidate);
+      if (value.isNotEmpty && !normalized.contains(value)) {
+        normalized.add(value);
+      }
+    }
+
+    if (normalized.isEmpty) {
+      return <String>['http://localhost:8080/api'];
+    }
+
+    return normalized;
+  }
+
+  static List<String> _platformDefaultBaseUrls() {
+    if (kIsWeb) {
+      final host = Uri.base.host;
+      if (host.isEmpty) {
+        return const <String>[];
+      }
+
+      final scheme = Uri.base.scheme.isNotEmpty ? Uri.base.scheme : 'http';
+      final authority = Uri.base.authority;
+      return <String>[
+        '$scheme://$host:8080/api',
+        '$scheme://$host:8081/api',
+        '$scheme://$authority/api',
+      ];
+    }
+
+    if (defaultTargetPlatform == TargetPlatform.android) {
+      return const <String>[
+        'http://10.0.2.2:8080/api',
+        'http://10.0.2.2:8081/api',
+        'http://localhost:8080/api',
+        'http://localhost:8081/api',
+      ];
+    }
+
+    return const <String>[
+      'http://localhost:8080/api',
+      'http://localhost:8081/api',
+      'http://127.0.0.1:8080/api',
+      'http://127.0.0.1:8081/api',
+    ];
+  }
+
+  static String _normalizeBaseUrl(String value) {
+    final trimmed = value.trim();
+    if (trimmed.isEmpty) return '';
+
+    try {
+      final uri = Uri.parse(trimmed);
+      var path = uri.path.trim();
+      if (path.isEmpty || path == '/') {
+        path = '/api';
+      }
+      if (path.length > 1 && path.endsWith('/')) {
+        path = path.substring(0, path.length - 1);
+      }
+
+      return uri
+          .replace(path: path, query: null, fragment: null)
+          .toString();
+    } catch (_) {
+      return trimmed.endsWith('/')
+          ? trimmed.substring(0, trimmed.length - 1)
+          : trimmed;
+    }
+  }
+
+  List<String> _orderedBaseUrls() {
+    return <String>[
+      _activeBaseUrl,
+      ..._baseUrls.where((base) => base != _activeBaseUrl),
+    ];
+  }
+
+  Uri _buildUri(String baseUrl, String endpoint, [Map<String, String>? query]) {
     final cleanEndpoint = endpoint.startsWith('/') ? endpoint : '/$endpoint';
     final uri = Uri.parse('$baseUrl$cleanEndpoint');
     if (query == null || query.isEmpty) {
@@ -65,16 +162,69 @@ class ApiClient {
     return headers;
   }
 
+  bool _isNetworkIssue(Object error) {
+    final message = error.toString().toLowerCase();
+    return message.contains('socketexception') ||
+        message.contains('failed host lookup') ||
+        message.contains('connection refused') ||
+        message.contains('clientexception') ||
+        message.contains('xmlhttprequest error') ||
+        message.contains('networkerror') ||
+        message.contains('timed out');
+  }
+
+  Future<dynamic> _sendWithFallback({
+    required String endpoint,
+    required String? token,
+    Map<String, String>? query,
+    required bool isJson,
+    required Future<http.Response> Function(
+      Uri uri,
+      Map<String, String> headers,
+    ) send,
+  }) async {
+    final headers = _headers(token: token, isJson: isJson);
+    final candidates = _orderedBaseUrls();
+    final failures = <String>[];
+
+    for (final candidate in candidates) {
+      try {
+        final response = await send(
+          _buildUri(candidate, endpoint, query),
+          headers,
+        ).timeout(const Duration(seconds: 8));
+        _activeBaseUrl = candidate;
+        return _parseResponse(response);
+      } on TimeoutException catch (error) {
+        failures.add('$candidate -> $error');
+      } catch (error) {
+        if (!_isNetworkIssue(error)) {
+          rethrow;
+        }
+        failures.add('$candidate -> $error');
+      }
+    }
+
+    throw ApiException(
+      'Unable to reach backend. Tried: ${candidates.join(', ')}. '
+      'Provide API_BASE_URL using --dart-define if your backend uses a custom host.',
+    );
+  }
+
   Future<dynamic> get(
     String endpoint, {
     String? token,
     Map<String, String>? query,
   }) async {
-    final response = await http.get(
-      _buildUri(endpoint, query),
-      headers: _headers(token: token),
+    return _sendWithFallback(
+      endpoint: endpoint,
+      token: token,
+      query: query,
+      isJson: true,
+      send: (uri, headers) {
+        return _httpClient.get(uri, headers: headers);
+      },
     );
-    return _parseResponse(response);
   }
 
   Future<dynamic> post(
@@ -83,12 +233,18 @@ class ApiClient {
     Map<String, dynamic>? body,
     bool isJson = true,
   }) async {
-    final response = await http.post(
-      _buildUri(endpoint),
-      headers: _headers(token: token, isJson: isJson),
-      body: body == null ? null : (isJson ? jsonEncode(body) : body),
+    return _sendWithFallback(
+      endpoint: endpoint,
+      token: token,
+      isJson: isJson,
+      send: (uri, headers) {
+        return _httpClient.post(
+          uri,
+          headers: headers,
+          body: body == null ? null : (isJson ? jsonEncode(body) : body),
+        );
+      },
     );
-    return _parseResponse(response);
   }
 
   Future<dynamic> put(
@@ -96,12 +252,18 @@ class ApiClient {
     String? token,
     Map<String, dynamic>? body,
   }) async {
-    final response = await http.put(
-      _buildUri(endpoint),
-      headers: _headers(token: token),
-      body: body == null ? null : jsonEncode(body),
+    return _sendWithFallback(
+      endpoint: endpoint,
+      token: token,
+      isJson: true,
+      send: (uri, headers) {
+        return _httpClient.put(
+          uri,
+          headers: headers,
+          body: body == null ? null : jsonEncode(body),
+        );
+      },
     );
-    return _parseResponse(response);
   }
 
   Future<dynamic> delete(
@@ -109,12 +271,18 @@ class ApiClient {
     String? token,
     Map<String, dynamic>? body,
   }) async {
-    final response = await http.delete(
-      _buildUri(endpoint),
-      headers: _headers(token: token),
-      body: body == null ? null : jsonEncode(body),
+    return _sendWithFallback(
+      endpoint: endpoint,
+      token: token,
+      isJson: true,
+      send: (uri, headers) {
+        return _httpClient.delete(
+          uri,
+          headers: headers,
+          body: body == null ? null : jsonEncode(body),
+        );
+      },
     );
-    return _parseResponse(response);
   }
 
   dynamic _parseResponse(http.Response response) {
