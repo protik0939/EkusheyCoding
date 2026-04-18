@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../app_state.dart';
 import '../data/strings.dart';
+import '../services.dart';
 import '../widgets/common.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -52,10 +53,13 @@ class _SignupScreenState extends State<SignupScreen> {
       widget.onSuccess();
     } catch (e) {
       if (!mounted) return;
+      final errorMessage = e is ApiException
+          ? e.message
+          : 'Unable to create account. Please try again.';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            '${AppStrings.getByLocale(context.read<AppState>().locale, 'create_account')} failed: $e',
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'create_account')} failed: $errorMessage',
           ),
         ),
       );

@@ -9,6 +9,30 @@ class ApiContext {
   ApiContext(this.store);
 
   final InMemoryStore store;
+  Future<void>? _persistTask;
+  bool _persistAgain = false;
+
+  void _schedulePersist() {
+    if (_persistTask != null) {
+      _persistAgain = true;
+      return;
+    }
+
+    _persistTask = _runPersistLoop();
+  }
+
+  Future<void> _runPersistLoop() async {
+    do {
+      _persistAgain = false;
+      try {
+        await store.persistState();
+      } catch (error) {
+        stderr.writeln('Failed to persist state: $error');
+      }
+    } while (_persistAgain);
+
+    _persistTask = null;
+  }
 
   Response jsonResponse(Object data, {int status = 200}) {
     return Response(
@@ -127,11 +151,7 @@ class ApiContext {
       return (Request request) async {
         final response = await inner(request);
         if (_shouldPersistRequest(request) && response.statusCode < 500) {
-          try {
-            await store.persistState();
-          } catch (error) {
-            stderr.writeln('Failed to persist state: $error');
-          }
+          _schedulePersist();
         }
         return response;
       };

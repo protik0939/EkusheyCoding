@@ -52,12 +52,14 @@ class ApiClient {
       defaultValue: '',
     );
 
+    final hasExplicitUrl =
+        (baseUrl != null && baseUrl.trim().isNotEmpty) ||
+        envBaseUrl.trim().isNotEmpty;
+
     final candidates = <String>[
       if (baseUrl != null && baseUrl.trim().isNotEmpty) baseUrl,
       if (envBaseUrl.trim().isNotEmpty) envBaseUrl,
-      ..._platformDefaultBaseUrls(),
-      'http://localhost:8080/api',
-      'http://localhost:8081/api',
+      if (!hasExplicitUrl) ..._platformDefaultBaseUrls(),
     ];
 
     final normalized = <String>[];
@@ -188,10 +190,11 @@ class ApiClient {
 
     for (final candidate in candidates) {
       try {
+        final uri = _buildUri(candidate, endpoint, query);
         final response = await send(
-          _buildUri(candidate, endpoint, query),
+          uri,
           headers,
-        ).timeout(const Duration(seconds: 8));
+        ).timeout(const Duration(seconds: 15));
         _activeBaseUrl = candidate;
         return _parseResponse(response);
       } on TimeoutException catch (error) {
@@ -202,6 +205,18 @@ class ApiClient {
         }
         failures.add('$candidate -> $error');
       }
+    }
+
+    final timeoutOnly =
+        failures.isNotEmpty &&
+        failures.every(
+          (item) => item.toLowerCase().contains('timeoutexception'),
+        );
+    if (timeoutOnly) {
+      throw ApiException(
+        'Request timed out while waiting for backend response. '
+        'If your account was created, try logging in.',
+      );
     }
 
     throw ApiException(

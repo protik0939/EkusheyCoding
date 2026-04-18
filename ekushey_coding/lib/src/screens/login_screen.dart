@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../app_state.dart';
 import '../data/strings.dart';
+import '../services.dart';
 import '../widgets/common.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -45,10 +46,13 @@ class _LoginScreenState extends State<LoginScreen> {
       widget.onSuccess();
     } catch (e) {
       if (!mounted) return;
+      final errorMessage = e is ApiException
+          ? e.message
+          : 'Unable to complete login. Please try again.';
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            '${AppStrings.getByLocale(context.read<AppState>().locale, 'login_title')}: $e',
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'login_title')}: $errorMessage',
           ),
         ),
       );

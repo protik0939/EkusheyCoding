@@ -127,6 +127,15 @@ extension InMemoryStorePersistence on InMemoryStore {
       return;
     }
 
+    // Create snapshots to avoid concurrent modification errors
+    final userSnapshot = List<Map<String, dynamic>>.from(users);
+    final blogSnapshot = List<Map<String, dynamic>>.from(blogs);
+    final exerciseSnapshot = List<Map<String, dynamic>>.from(exercises);
+    final tutorialSnapshot = List<Map<String, dynamic>>.from(tutorials);
+    final favoriteSnapshot = List<Map<String, dynamic>>.from(favorites);
+    final activitySnapshot = List<Map<String, dynamic>>.from(activities);
+    final tokenSnapshot = Map<String, int>.from(tokenToUserId);
+
     await _db!.runTx((session) async {
       await session.execute('DELETE FROM activities');
       await session.execute('DELETE FROM favorites');
@@ -136,7 +145,7 @@ extension InMemoryStorePersistence on InMemoryStore {
       await session.execute('DELETE FROM auth_tokens');
       await session.execute('DELETE FROM users');
 
-      for (final user in users) {
+      for (final user in userSnapshot) {
         await session.execute(
           Sql.named(
             'INSERT INTO users '
@@ -167,7 +176,7 @@ extension InMemoryStorePersistence on InMemoryStore {
         );
       }
 
-      for (final tokenEntry in tokenToUserId.entries) {
+      for (final tokenEntry in tokenSnapshot.entries) {
         await session.execute(
           Sql.named(
             'INSERT INTO auth_tokens (token, user_id, created_at, last_used_at) '
@@ -181,7 +190,7 @@ extension InMemoryStorePersistence on InMemoryStore {
         );
       }
 
-      for (final blog in blogs) {
+      for (final blog in blogSnapshot) {
         await session.execute(
           Sql.named(
             'INSERT INTO blogs '
@@ -209,7 +218,7 @@ extension InMemoryStorePersistence on InMemoryStore {
         );
       }
 
-      for (final tutorial in tutorials) {
+      for (final tutorial in tutorialSnapshot) {
         await session.execute(
           Sql.named(
             'INSERT INTO tutorials '
@@ -230,7 +239,7 @@ extension InMemoryStorePersistence on InMemoryStore {
         );
       }
 
-      for (final exercise in exercises) {
+      for (final exercise in exerciseSnapshot) {
         await session.execute(
           Sql.named(
             'INSERT INTO exercises '
@@ -259,7 +268,7 @@ extension InMemoryStorePersistence on InMemoryStore {
         );
       }
 
-      for (final favorite in favorites) {
+      for (final favorite in favoriteSnapshot) {
         await session.execute(
           Sql.named(
             'INSERT INTO favorites '
@@ -281,7 +290,7 @@ extension InMemoryStorePersistence on InMemoryStore {
         );
       }
 
-      for (final activity in activities) {
+      for (final activity in activitySnapshot) {
         await session.execute(
           Sql.named(
             'INSERT INTO activities '
