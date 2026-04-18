@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
@@ -6,6 +7,37 @@ import '../data/languages.dart';
 import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
+
+/// Map language IDs to their official logo URLs from reliable CDNs
+String _getLanguageLogoUrl(String languageId) {
+  const Map<String, String> logoUrls = <String, String>{
+    'javascript':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/javascript/javascript-original.svg',
+    'python':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/python/python-original.svg',
+    'java':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/java/java-original.svg',
+    'cpp':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/cplusplus/cplusplus-original.svg',
+    'csharp':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/csharp/csharp-original.svg',
+    'typescript':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/typescript/typescript-original.svg',
+    'php':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/php/php-original.svg',
+    'ruby':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/ruby/ruby-original.svg',
+    'go':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/go/go-original.svg',
+    'rust':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/rust/rust-original.svg',
+    'swift':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/swift/swift-original.svg',
+    'kotlin':
+        'https://raw.githubusercontent.com/devicons/devicon/master/icons/kotlin/kotlin-original.svg',
+  };
+  return logoUrls[languageId] ?? '';
+}
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({
@@ -303,21 +335,33 @@ class _LanguageCard extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
               Container(
-                width: 42,
-                height: 42,
+                width: 48,
+                height: 48,
                 decoration: BoxDecoration(
-                  color: Theme.of(
-                    context,
-                  ).colorScheme.primary.withValues(alpha: 0.13),
+                  color: Theme.of(context).colorScheme.surface,
                   borderRadius: BorderRadius.circular(12),
+                  boxShadow: <BoxShadow>[
+                    BoxShadow(
+                      color: Theme.of(
+                        context,
+                      ).colorScheme.primary.withValues(alpha: 0.1),
+                      blurRadius: 8,
+                      offset: const Offset(0, 2),
+                    ),
+                  ],
                 ),
                 alignment: Alignment.center,
-                child: Text(
-                  language.getLocalizedName(locale).characters.first,
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
+                child: SvgPicture.network(
+                  _getLanguageLogoUrl(language.id),
+                  width: 32,
+                  height: 32,
+                  placeholderBuilder: (BuildContext context) {
+                    return Icon(
+                      Icons.code_rounded,
+                      size: 28,
+                      color: Theme.of(context).colorScheme.primary,
+                    );
+                  },
                 ),
               ),
               const SizedBox(height: 10),
