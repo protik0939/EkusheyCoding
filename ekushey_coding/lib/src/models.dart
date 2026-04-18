@@ -184,7 +184,9 @@ class TutorialItem {
     required this.id,
     required this.languageId,
     required this.title,
+    this.titleBn,
     required this.content,
+    this.contentBn,
     required this.order,
     required this.isPublished,
     this.codeExample,
@@ -193,20 +195,40 @@ class TutorialItem {
   final int id;
   final String languageId;
   final String title;
+  final String? titleBn;
   final String content;
+  final String? contentBn;
   final String? codeExample;
   final int order;
   final bool isPublished;
 
+  /// Get localized title based on locale
+  String getTitleByLocale(String locale) {
+    if (locale == 'bn' && titleBn != null && titleBn!.isNotEmpty) {
+      return titleBn!;
+    }
+    return title;
+  }
+
+  /// Get localized content based on locale
+  String getContentByLocale(String locale) {
+    if (locale == 'bn' && contentBn != null && contentBn!.isNotEmpty) {
+      return contentBn!;
+    }
+    return content;
+  }
+
   factory TutorialItem.fromJson(Map<String, dynamic> json) {
     return TutorialItem(
       id: (json['id'] as num?)?.toInt() ?? 0,
-      languageId: (json['language_id'] ?? '') as String,
-      title: (json['title'] ?? '') as String,
-      content: (json['content'] ?? '') as String,
+      languageId: (json['language_id'] as String?) ?? '',
+      title: (json['title'] as String?) ?? '',
+      titleBn: json['title_bn'] as String?,
+      content: (json['content'] as String?) ?? '',
+      contentBn: json['content_bn'] as String?,
       codeExample: json['code_example'] as String?,
       order: (json['order'] as num?)?.toInt() ?? 0,
-      isPublished: (json['is_published'] ?? false) as bool,
+      isPublished: (json['is_published'] as bool?) ?? false,
     );
   }
 }

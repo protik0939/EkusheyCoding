@@ -314,8 +314,11 @@ void _seedStore(InMemoryStore store) {
     <String, dynamic>{
       'language_id': 'javascript',
       'title': 'Introduction to JavaScript',
+      'title_bn': 'জাভাস্ক্রিপ্ট পরিচিতি',
       'content':
           'JavaScript is a lightweight interpreted language for modern web applications.',
+      'content_bn':
+          'জাভাস্ক্রিপ্ট আধুনিক ওয়েব অ্যাপ্লিকেশনগুলির জন্য একটি হালকা ব্যাখ্যাত ভাষা।',
       'code_example': 'console.log("Hello, World!");',
       'order': 1,
       'is_published': true,
@@ -323,7 +326,9 @@ void _seedStore(InMemoryStore store) {
     <String, dynamic>{
       'language_id': 'javascript',
       'title': 'Variables and Data Types',
+      'title_bn': 'ভেরিয়েবল এবং ডেটা প্রকার',
       'content': 'Use let and const for modern variable declarations.',
+      'content_bn': 'আধুনিক ভেরিয়েবল ঘোষণার জন্য let এবং const ব্যবহার করুন।',
       'code_example': 'const age = 25;\nlet name = "Alice";',
       'order': 2,
       'is_published': true,
@@ -331,7 +336,9 @@ void _seedStore(InMemoryStore store) {
     <String, dynamic>{
       'language_id': 'python',
       'title': 'Getting Started with Python',
+      'title_bn': 'পাইথন শুরু করা',
       'content': 'Python focuses on readability and simplicity.',
+      'content_bn': 'পাইথন পাঠযোগ্যতা এবং সরলতার উপর ফোকাস করে।',
       'code_example': 'print("Hello, World!")',
       'order': 1,
       'is_published': true,
@@ -339,7 +346,9 @@ void _seedStore(InMemoryStore store) {
     <String, dynamic>{
       'language_id': 'html',
       'title': 'HTML Basics',
+      'title_bn': 'এইচটিএমএল মূলনীতি',
       'content': 'HTML structures your content for the web.',
+      'content_bn': 'এইচটিএমএল ওয়েবের জন্য আপনার কন্টেন্ট সংগঠিত করে।',
       'code_example': '<h1>Hello World</h1>',
       'order': 1,
       'is_published': true,
@@ -347,7 +356,10 @@ void _seedStore(InMemoryStore store) {
     <String, dynamic>{
       'language_id': 'react',
       'title': 'Introduction to React',
+      'title_bn': 'রিঅ্যাক্ট পরিচিতি',
       'content': 'React helps build component-driven user interfaces.',
+      'content_bn':
+          'রিঅ্যাক্ট কম্পোনেন্ট-চালিত ব্যবহারকারী ইন্টারফেস তৈরিতে সাহায্য করে।',
       'code_example': 'function App(){ return <h1>Hello</h1> }',
       'order': 1,
       'is_published': true,
@@ -382,7 +394,9 @@ void _seedStore(InMemoryStore store) {
     'user_id': testUser['id'],
     'type': 'tutorial',
     'title': 'Introduction to JavaScript',
+    'title_bn': 'জাভাস্ক্রিপ্ট পরিচিতি',
     'description': 'Great start for newcomers',
+    'description_bn': 'নতুনদের জন্য দুর্দান্ত শুরু',
     'url': '/tutorials/1',
     'category': 'javascript',
     'tags': <String>['intro'],

@@ -204,9 +204,9 @@ class _TutorialGroupCard extends StatelessWidget {
                   radius: 14,
                   child: Text('${tutorial.order}'),
                 ),
-                title: Text(tutorial.title),
+                title: Text(tutorial.getTitleByLocale(locale)),
                 subtitle: Text(
-                  tutorial.content,
+                  tutorial.getContentByLocale(locale),
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),

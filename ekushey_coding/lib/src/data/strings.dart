@@ -81,6 +81,47 @@ class AppStrings {
         'Tutorials for this language will appear once published.',
     'lessons_count': 'lessons',
     'failed_load_tutorials': 'Failed to load tutorials',
+
+    // Exercises Screen
+    'page_exercises': 'Exercises',
+    'exercises_subtitle': 'Practice problems to strengthen your skills.',
+    'empty_exercises_title': 'No exercises available',
+    'empty_exercises_subtitle':
+        'Exercises for this language will appear once published.',
+    'exercises_count': 'problems',
+    'difficulty': 'Difficulty',
+    'duration': 'Duration',
+    'failed_load_exercises': 'Failed to load exercises',
+
+    // Blog Screen
+    'page_blog': 'Blog',
+    'blog_subtitle': 'Articles and insights from our community.',
+    'empty_blog_title': 'No articles available',
+    'empty_blog_subtitle': 'Check back later for new content.',
+    'posts_count': 'articles',
+    'published': 'Published',
+    'failed_load_blog': 'Failed to load blog posts',
+
+    // Profile Screen
+    'page_profile': 'Profile',
+    'profile_login_title': 'Welcome Back',
+    'profile_login_subtitle': 'Sign in to track your progress.',
+    'btn_login': 'Login',
+    'btn_signup': 'Sign Up',
+    'profile_stats': 'Your Stats',
+    'lessons_completed': 'Lessons Completed',
+    'exercises_solved': 'Exercises Solved',
+    'blogs_read': 'Blogs Read',
+    'logout': 'Logout',
+
+    // Certificates Screen
+    'page_certificates': 'Certificates',
+    'certificates_subtitle': 'Earn certificates by completing courses.',
+    'empty_certificates_title': 'No certificates earned yet',
+    'empty_certificates_subtitle':
+        'Complete courses to earn your certificates.',
+    'earned': 'Earned',
+    'failed_load_certificates': 'Failed to load certificates',
   };
 
   // Bangla translations
@@ -154,5 +195,45 @@ class AppStrings {
         'এই ভাষার টিউটোরিয়াল প্রকাশিত হলে এখানে প্রদর্শিত হবে।',
     'lessons_count': 'পাঠ',
     'failed_load_tutorials': 'টিউটোরিয়াল লোড করতে ব্যর্থ',
+
+    // Exercises Screen
+    'page_exercises': 'এক্সারসাইজ',
+    'exercises_subtitle': 'আপনার দক্ষতা শক্তিশালী করতে অনুশীলন সমস্যা।',
+    'empty_exercises_title': 'কোনো এক্সারসাইজ উপলব্ধ নেই',
+    'empty_exercises_subtitle':
+        'এই ভাষার এক্সারসাইজ প্রকাশিত হলে এখানে প্রদর্শিত হবে।',
+    'exercises_count': 'সমস্যা',
+    'difficulty': 'কঠিনতা',
+    'duration': 'সময়কাল',
+    'failed_load_exercises': 'এক্সারসাইজ লোড করতে ব্যর্থ',
+
+    // Blog Screen
+    'page_blog': 'ব্লগ',
+    'blog_subtitle': 'আমাদের কমিউনিটি থেকে নিবন্ধ এবং অন্তর্দৃষ্টি।',
+    'empty_blog_title': 'কোনো নিবন্ধ উপলব্ধ নেই',
+    'empty_blog_subtitle': 'নতুন কন্টেন্টের জন্য পরে ফিরে দেখুন।',
+    'posts_count': 'নিবন্ধ',
+    'published': 'প্রকাশিত',
+    'failed_load_blog': 'ব্লগ পোস্ট লোড করতে ব্যর্থ',
+
+    // Profile Screen
+    'page_profile': 'প্রোফাইল',
+    'profile_login_title': 'আবার স্বাগতম',
+    'profile_login_subtitle': 'আপনার অগ্রগতি ট্র্যাক করতে সাইন ইন করুন।',
+    'btn_login': 'লগইন',
+    'btn_signup': 'সাইন আপ',
+    'profile_stats': 'আপনার পরিসংখ্যান',
+    'lessons_completed': 'সম্পন্ন পাঠ',
+    'exercises_solved': 'সমাধান করা এক্সারসাইজ',
+    'blogs_read': 'পড়া ব্লগ',
+    'logout': 'লগআউট',
+
+    // Certificates Screen
+    'page_certificates': 'সার্টিফিকেট',
+    'certificates_subtitle': 'কোর্স সম্পন্ন করে সার্টিফিকেট অর্জন করুন।',
+    'empty_certificates_title': 'এখনও কোনো সার্টিফিকেট অর্জন করা হয়নি',
+    'empty_certificates_subtitle': 'সার্টিফিকেট অর্জন করতে কোর্স সম্পন্ন করুন।',
+    'earned': 'অর্জিত',
+    'failed_load_certificates': 'সার্টিফিকেট লোড করতে ব্যর্থ',
   };
 }
