@@ -72,9 +72,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
       });
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to load profile: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'failed_load_profile')}: $e',
+          ),
+        ),
+      );
     } finally {
       if (mounted) {
         setState(() => _loading = false);
@@ -105,13 +109,24 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (!mounted) return;
       setState(() => _editing = false);
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Profile updated successfully')),
+        SnackBar(
+          content: Text(
+            AppStrings.getByLocale(
+              context.read<AppState>().locale,
+              'profile_updated',
+            ),
+          ),
+        ),
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to save profile: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'failed_save_profile')}: $e',
+          ),
+        ),
+      );
     } finally {
       if (mounted) {
         setState(() => _loading = false);
@@ -130,10 +145,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
           child: ListView(
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             children: <Widget>[
-              const EmptyStateCard(
-                title: 'Login Required',
-                subtitle:
-                    'Sign in to view your profile, learning stats, and saved progress.',
+              EmptyStateCard(
+                title: AppStrings.getByLocale(locale, 'login_required'),
+                subtitle: AppStrings.getByLocale(
+                  locale,
+                  'login_required_subtitle',
+                ),
                 icon: Icons.person_outline_rounded,
               ),
               const SizedBox(height: 12),
@@ -171,8 +188,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             children: <Widget>[
               SectionHeader(
-                title: 'Profile',
-                subtitle: 'Manage your account and learning information.',
+                title: AppStrings.getByLocale(locale, 'profile_title'),
+                subtitle: AppStrings.getByLocale(locale, 'profile_subtitle'),
                 trailing: IconButton(
                   onPressed: _loading
                       ? null
@@ -197,9 +214,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                 )
               else if (profile == null)
-                const EmptyStateCard(
-                  title: 'Profile unavailable',
-                  subtitle: 'Could not load your profile right now.',
+                EmptyStateCard(
+                  title: AppStrings.getByLocale(locale, 'profile_unavailable'),
+                  subtitle: AppStrings.getByLocale(
+                    locale,
+                    'profile_unavailable_subtitle',
+                  ),
                 )
               else ...<Widget>[
                 Card(
@@ -278,7 +298,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                           children: <Widget>[
                             Chip(
                               label: Text(
-                                'Courses: ${profile.stats['total_courses'] ?? 0}',
+                                '${AppStrings.getByLocale(locale, 'enroll')}: ${profile.stats['total_courses'] ?? 0}',
                               ),
                             ),
                             Chip(
@@ -311,11 +331,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         final messenger = ScaffoldMessenger.of(context);
                         await appState.logout();
                         if (!mounted) return;
-                        messenger.showSnackBar(
-                          const SnackBar(
-                            content: Text('Logged out successfully'),
-                          ),
-                        );
+                        final msg =
+                            '${AppStrings.getByLocale(locale, 'logout')} ${AppStrings.getByLocale(locale, 'success')}';
+                        messenger.showSnackBar(SnackBar(content: Text(msg)));
                       },
                 icon: const Icon(Icons.logout_rounded),
                 label: Text(AppStrings.getByLocale(locale, 'logout')),

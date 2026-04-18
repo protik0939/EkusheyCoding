@@ -33,7 +33,11 @@ class BlogDetailScreen extends StatelessWidget {
                         children: <Widget>[
                           Chip(label: Text(post.categoryByLocale(locale))),
                           Chip(label: Text(post.readTimeByLocale(locale))),
-                          Chip(label: Text('${post.views} views')),
+                          Chip(
+                            label: Text(
+                              '${post.views} ${AppStrings.getByLocale(locale, 'views')}',
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 12),

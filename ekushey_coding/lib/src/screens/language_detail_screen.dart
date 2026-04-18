@@ -31,27 +31,32 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen>
 
   static const List<_QuizQuestion> _quiz = <_QuizQuestion>[
     _QuizQuestion(
-      question: 'What keyword is commonly used for constant values?',
-      options: <String>['var', 'let', 'const', 'finalize'],
-      correctIndex: 2,
-    ),
-    _QuizQuestion(
-      question: 'Which command prints output in most languages?',
-      options: <String>[
-        'echo()',
-        'log()',
-        'print()/console.log()',
-        'writeLineForever()',
+      questionKey: 'quiz_q1',
+      optionKeys: <String>[
+        'quiz_q1_opt0',
+        'quiz_q1_opt1',
+        'quiz_q1_opt2',
+        'quiz_q1_opt3',
       ],
       correctIndex: 2,
     ),
     _QuizQuestion(
-      question: 'What helps keep code maintainable?',
-      options: <String>[
-        'Long files only',
-        'No naming conventions',
-        'Reusable functions/modules',
-        'No comments ever',
+      questionKey: 'quiz_q2',
+      optionKeys: <String>[
+        'quiz_q2_opt0',
+        'quiz_q2_opt1',
+        'quiz_q2_opt2',
+        'quiz_q2_opt3',
+      ],
+      correctIndex: 2,
+    ),
+    _QuizQuestion(
+      questionKey: 'quiz_q3',
+      optionKeys: <String>[
+        'quiz_q3_opt0',
+        'quiz_q3_opt1',
+        'quiz_q3_opt2',
+        'quiz_q3_opt3',
       ],
       correctIndex: 2,
     ),
@@ -110,7 +115,7 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.language.name),
+        title: Text(widget.language.getLocalizedName(locale)),
         bottom: TabBar(
           controller: _tabController,
           tabs: <Tab>[
@@ -168,7 +173,7 @@ class _AboutTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                Text(language.description),
+                Text(language.getLocalizedDescription(locale)),
                 const SizedBox(height: 12),
                 Wrap(
                   spacing: 8,
@@ -180,7 +185,7 @@ class _AboutTab extends StatelessWidget {
                     ),
                     Chip(
                       label: Text(
-                        '${AppStrings.getByLocale(locale, 'difficulty')}: ${language.difficulty}',
+                        '${AppStrings.getByLocale(locale, 'difficulty')}: ${language.getLocalizedDifficulty(locale)}',
                       ),
                     ),
                   ],
@@ -192,25 +197,29 @@ class _AboutTab extends StatelessWidget {
         const SizedBox(height: 10),
         SectionHeader(title: AppStrings.getByLocale(locale, 'key_features')),
         const SizedBox(height: 8),
-        ...language.features.map(
-          (f) => Card(
-            child: ListTile(
-              leading: const Icon(Icons.check_circle_outline_rounded),
-              title: Text(f),
+        ...language
+            .getLocalizedFeatures(locale)
+            .map(
+              (f) => Card(
+                child: ListTile(
+                  leading: const Icon(Icons.check_circle_outline_rounded),
+                  title: Text(f),
+                ),
+              ),
             ),
-          ),
-        ),
         const SizedBox(height: 12),
         SectionHeader(title: AppStrings.getByLocale(locale, 'use_cases')),
         const SizedBox(height: 8),
-        ...language.useCases.map(
-          (u) => Card(
-            child: ListTile(
-              leading: const Icon(Icons.code_rounded),
-              title: Text(u),
+        ...language
+            .getLocalizedUseCases(locale)
+            .map(
+              (u) => Card(
+                child: ListTile(
+                  leading: const Icon(Icons.code_rounded),
+                  title: Text(u),
+                ),
+              ),
             ),
-          ),
-        ),
       ],
     );
   }
@@ -227,10 +236,13 @@ class _TutorialsTab extends StatelessWidget {
     if (tutorials.isEmpty) {
       return ListView(
         padding: const EdgeInsets.all(16),
-        children: const <Widget>[
+        children: <Widget>[
           EmptyStateCard(
-            title: 'No tutorials yet',
-            subtitle: 'This language has no published tutorials right now.',
+            title: AppStrings.getByLocale(locale, 'empty_tutorials_title'),
+            subtitle: AppStrings.getByLocale(
+              locale,
+              'empty_tutorials_subtitle',
+            ),
             icon: Icons.menu_book_rounded,
           ),
         ],
@@ -244,7 +256,7 @@ class _TutorialsTab extends StatelessWidget {
             (t) => Card(
               margin: const EdgeInsets.only(bottom: 10),
               child: ExpansionTile(
-                title: Text(t.title),
+                title: Text(t.getTitleByLocale(locale)),
                 subtitle: Text(
                   '${AppStrings.getByLocale(locale, 'lesson')} ${t.order}',
                 ),
@@ -254,7 +266,7 @@ class _TutorialsTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text(t.content),
+                        Text(t.getContentByLocale(locale)),
                         if ((t.codeExample ?? '').isNotEmpty) ...<Widget>[
                           const SizedBox(height: 10),
                           Container(
@@ -318,9 +330,12 @@ class _ExercisesTab extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       children: <Widget>[
         if (exercises.isEmpty)
-          const EmptyStateCard(
-            title: 'No exercises yet',
-            subtitle: 'Exercises for this language are not published yet.',
+          EmptyStateCard(
+            title: AppStrings.getByLocale(locale, 'empty_exercises_title'),
+            subtitle: AppStrings.getByLocale(
+              locale,
+              'empty_exercises_subtitle',
+            ),
             icon: Icons.integration_instructions_outlined,
           )
         else
@@ -336,7 +351,7 @@ class _ExercisesTab extends StatelessWidget {
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
-                    trailing: Text(item.difficulty),
+                    trailing: Text(item.difficultyByLocale(locale)),
                   ),
                 ),
               ),
@@ -362,22 +377,24 @@ class _ExercisesTab extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
-                        Text('${index + 1}. ${q.question}'),
+                        Text('${index + 1}. ${q.getQuestion(locale)}'),
                         const SizedBox(height: 4),
                         Wrap(
                           spacing: 8,
                           runSpacing: 8,
-                          children: List<Widget>.generate(q.options.length, (
-                            optIndex,
-                          ) {
-                            return ChoiceChip(
-                              selected: answers[index] == optIndex,
-                              label: Text(q.options[optIndex]),
-                              onSelected: submittedQuiz
-                                  ? null
-                                  : (_) => onSelectAnswer(index, optIndex),
-                            );
-                          }),
+                          children: List<Widget>.generate(
+                            q.getOptions(locale).length,
+                            (optIndex) {
+                              final opts = q.getOptions(locale);
+                              return ChoiceChip(
+                                selected: answers[index] == optIndex,
+                                label: Text(opts[optIndex]),
+                                onSelected: submittedQuiz
+                                    ? null
+                                    : (_) => onSelectAnswer(index, optIndex),
+                              );
+                            },
+                          ),
                         ),
                       ],
                     ),
@@ -387,7 +404,7 @@ class _ExercisesTab extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.only(bottom: 10),
                     child: Text(
-                      'Score: $score / ${quiz.length}',
+                      '${AppStrings.getByLocale(locale, 'score_label')}: $score / ${quiz.length}',
                       style: TextStyle(
                         color: Theme.of(context).colorScheme.primary,
                         fontWeight: FontWeight.w800,
@@ -421,12 +438,34 @@ class _ExercisesTab extends StatelessWidget {
 
 class _QuizQuestion {
   const _QuizQuestion({
-    required this.question,
-    required this.options,
+    this.question,
+    this.options,
+    this.questionKey,
+    this.optionKeys,
     required this.correctIndex,
   });
 
-  final String question;
-  final List<String> options;
+  // Legacy direct text fields (optional)
+  final String? question;
+  final List<String>? options;
+
+  // New key-based fields for localization
+  final String? questionKey;
+  final List<String>? optionKeys;
+
   final int correctIndex;
+
+  String getQuestion(String locale) {
+    if (questionKey != null && questionKey!.isNotEmpty) {
+      return AppStrings.getByLocale(locale, questionKey!);
+    }
+    return question ?? '';
+  }
+
+  List<String> getOptions(String locale) {
+    if (optionKeys != null && optionKeys!.isNotEmpty) {
+      return optionKeys!.map((k) => AppStrings.getByLocale(locale, k)).toList();
+    }
+    return options ?? <String>[];
+  }
 }

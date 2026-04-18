@@ -337,6 +337,10 @@ class ExerciseItem {
       ? (sampleOutputBn.isNotEmpty ? sampleOutputBn : sampleOutput)
       : sampleOutput;
 
+  /// Get localized difficulty label
+  String difficultyByLocale(String locale) =>
+      locale == 'bn' && difficultyBn.isNotEmpty ? difficultyBn : difficulty;
+
   factory ExerciseItem.fromJson(Map<String, dynamic> json) {
     List<String> parseList(dynamic value) {
       if (value == null) return <String>[];
@@ -442,8 +446,11 @@ class LanguageMeta {
     required this.description,
     required this.version,
     required this.difficulty,
+    this.difficultyBn,
     required this.features,
+    this.featuresBn,
     required this.useCases,
+    this.useCasesBn,
   });
 
   final String id;
@@ -452,8 +459,11 @@ class LanguageMeta {
   final String description;
   final String version;
   final String difficulty;
+  final String? difficultyBn;
   final List<String> features;
+  final List<String>? featuresBn;
   final List<String> useCases;
+  final List<String>? useCasesBn;
 
   /// Get localized name for the programming language
   String getLocalizedName(String locale) {
@@ -465,6 +475,38 @@ class LanguageMeta {
   String getLocalizedShortDescription(String locale) {
     final key = 'lang_${id}_desc';
     return AppStrings.getByLocale(locale, key);
+  }
+
+  /// Get localized long description / fallback to the stored description
+  String getLocalizedDescription(String locale) {
+    // Prefer AppStrings short desc if available; otherwise fallback to description
+    final desc = AppStrings.getByLocale(locale, 'lang_${id}_desc');
+    if (desc != 'lang_${id}_desc' && desc.isNotEmpty) return desc;
+    return description;
+  }
+
+  /// Localized difficulty label
+  String getLocalizedDifficulty(String locale) {
+    if (locale == 'bn' && difficultyBn != null && difficultyBn!.isNotEmpty) {
+      return difficultyBn!;
+    }
+    return difficulty;
+  }
+
+  /// Localized features list - returns Bengali list if locale == 'bn' and available
+  List<String> getLocalizedFeatures(String locale) {
+    if (locale == 'bn' && featuresBn != null && featuresBn!.isNotEmpty) {
+      return featuresBn!;
+    }
+    return features;
+  }
+
+  /// Localized use-cases list - returns Bengali list if locale == 'bn' and available
+  List<String> getLocalizedUseCases(String locale) {
+    if (locale == 'bn' && useCasesBn != null && useCasesBn!.isNotEmpty) {
+      return useCasesBn!;
+    }
+    return useCases;
   }
 }
 

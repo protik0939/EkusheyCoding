@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../data/languages.dart';
 import '../models.dart';
 import '../widgets/common.dart';
@@ -51,9 +52,13 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
       setState(() => _items = data.items);
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to load exercises: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'failed_load_exercises')}: $e',
+          ),
+        ),
+      );
       setState(() => _items = <ExerciseItem>[]);
     } finally {
       if (mounted) {
@@ -74,18 +79,26 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             children: <Widget>[
-              const SectionHeader(
-                title: 'Exercises',
-                subtitle:
-                    'Practice coding with problem statements, input/output examples, and difficulty filters.',
+              SectionHeader(
+                title: AppStrings.getByLocale(
+                  context.read<AppState>().locale,
+                  'page_exercises',
+                ),
+                subtitle: AppStrings.getByLocale(
+                  context.read<AppState>().locale,
+                  'exercises_subtitle',
+                ),
               ),
               const SizedBox(height: 12),
               TextField(
                 controller: _searchCtrl,
                 onSubmitted: (_) => _load(),
-                decoration: const InputDecoration(
-                  hintText: 'Search exercises...',
-                  prefixIcon: Icon(Icons.search_rounded),
+                decoration: InputDecoration(
+                  hintText: AppStrings.getByLocale(
+                    context.read<AppState>().locale,
+                    'exercises_subtitle',
+                  ),
+                  prefixIcon: const Icon(Icons.search_rounded),
                 ),
               ),
               const SizedBox(height: 10),
@@ -99,34 +112,69 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                           value: _selectedDifficulty,
                           isExpanded: true,
                           underline: const SizedBox.shrink(),
-                          items: const <DropdownMenuItem<String>>[
+                          items: <DropdownMenuItem<String>>[
                             DropdownMenuItem(
                               value: 'all',
-                              child: Text('All Difficulties'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty',
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'Beginner',
-                              child: Text('Beginner'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty_beginner',
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'Intermediate',
-                              child: Text('Intermediate'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty_intermediate',
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'Advanced',
-                              child: Text('Advanced'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty_advanced',
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'easy',
-                              child: Text('Easy'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty_easy',
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'medium',
-                              child: Text('Medium'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty_medium',
+                                ),
+                              ),
                             ),
                             DropdownMenuItem(
                               value: 'hard',
-                              child: Text('Hard'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'difficulty_hard',
+                                ),
+                              ),
                             ),
                           ],
                           onChanged: (value) {
@@ -149,9 +197,14 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                           isExpanded: true,
                           underline: const SizedBox.shrink(),
                           items: <DropdownMenuItem<String>>[
-                            const DropdownMenuItem(
+                            DropdownMenuItem(
                               value: 'all',
-                              child: Text('All Languages'),
+                              child: Text(
+                                AppStrings.getByLocale(
+                                  context.read<AppState>().locale,
+                                  'all_languages',
+                                ),
+                              ),
                             ),
                             ...kLanguages.map(
                               (lang) => DropdownMenuItem(
@@ -254,7 +307,7 @@ class _ExerciseCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
-                item.difficulty,
+                item.difficultyByLocale(locale),
                 style: TextStyle(color: color, fontWeight: FontWeight.w700),
               ),
             ),

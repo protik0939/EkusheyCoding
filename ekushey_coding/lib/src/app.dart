@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import 'app_state.dart';
+import 'data/strings.dart';
 import 'data/languages.dart';
 import 'models.dart';
 import 'screens/admin_screen.dart';
@@ -43,7 +44,7 @@ class EkusheyCodingApp extends StatelessWidget {
       child: Consumer<AppState>(
         builder: (BuildContext context, AppState appState, _) {
           return MaterialApp(
-            title: 'Ekushey Coding',
+            title: AppStrings.getByLocale(appState.locale, 'app_title'),
             debugShowCheckedModeBanner: false,
             theme: buildEkusheyTheme(Brightness.light),
             darkTheme: buildEkusheyTheme(Brightness.dark),
@@ -137,11 +138,11 @@ class _AppShellState extends State<AppShell> {
     ];
 
     final labels = <String>[
-      'Home',
-      'Tutorials',
-      'Exercises',
-      'Blog',
-      'Profile',
+      AppStrings.getByLocale(appState.locale, 'page_home'),
+      AppStrings.getByLocale(appState.locale, 'page_tutorials'),
+      AppStrings.getByLocale(appState.locale, 'page_exercises'),
+      AppStrings.getByLocale(appState.locale, 'page_blog'),
+      AppStrings.getByLocale(appState.locale, 'page_profile'),
     ];
 
     return Scaffold(
@@ -170,17 +171,21 @@ class _AppShellState extends State<AppShell> {
               appState.setLocale(locale);
             },
             icon: const Icon(Icons.language_rounded),
-            label: Text(appState.locale == 'en' ? 'বাংলা' : 'English'),
+            label: Text(
+              appState.locale == 'en'
+                  ? AppStrings.getByLocale(appState.locale, 'bangla')
+                  : AppStrings.getByLocale(appState.locale, 'english'),
+            ),
           ),
           if (!appState.isAuthenticated)
             IconButton(
-              tooltip: 'Login',
+              tooltip: AppStrings.getByLocale(appState.locale, 'btn_login'),
               onPressed: _openLogin,
               icon: const Icon(Icons.login_rounded),
             )
           else
             IconButton(
-              tooltip: 'Logout',
+              tooltip: AppStrings.getByLocale(appState.locale, 'logout'),
               onPressed: () => appState.logout(),
               icon: const Icon(Icons.logout_rounded),
             ),
@@ -364,23 +369,41 @@ class _GlassDrawer extends StatelessWidget {
                     const SizedBox(height: 12),
                     _DrawerActionTile(
                       icon: Icons.workspace_premium_rounded,
-                      title: 'Certificates',
-                      subtitle: 'View all available certificates',
+                      title: AppStrings.getByLocale(
+                        appState.locale,
+                        'page_certificates',
+                      ),
+                      subtitle: AppStrings.getByLocale(
+                        appState.locale,
+                        'certificates_subtitle',
+                      ),
                       onTap: onOpenCertificates,
                     ),
                     const SizedBox(height: 8),
                     _DrawerActionTile(
                       icon: Icons.language_rounded,
-                      title: 'All Languages',
-                      subtitle: 'Open the full language list',
+                      title: AppStrings.getByLocale(
+                        appState.locale,
+                        'all_languages',
+                      ),
+                      subtitle: AppStrings.getByLocale(
+                        appState.locale,
+                        'all_languages_subtitle',
+                      ),
                       onTap: onOpenAllLanguages,
                     ),
                     if (onOpenAdmin != null) ...<Widget>[
                       const SizedBox(height: 8),
                       _DrawerActionTile(
                         icon: Icons.admin_panel_settings_outlined,
-                        title: 'Admin Panel',
-                        subtitle: 'Manage blogs, tutorials, and exercises',
+                        title: AppStrings.getByLocale(
+                          appState.locale,
+                          'admin_title',
+                        ),
+                        subtitle: AppStrings.getByLocale(
+                          appState.locale,
+                          'admin_panel_subtitle',
+                        ),
                         onTap: onOpenAdmin!,
                       ),
                     ],

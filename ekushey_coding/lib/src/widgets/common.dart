@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../app_state.dart';
 import '../theme.dart';
+import '../data/strings.dart';
 
 class GradientBackdrop extends StatelessWidget {
   const GradientBackdrop({super.key, required this.child});
@@ -179,7 +180,9 @@ class ThemeToggleButton extends StatelessWidget {
             await appState.toggleThemeMode();
             onPressed?.call();
           },
-          tooltip: isDark ? 'Light Mode' : 'Dark Mode',
+          tooltip: isDark
+              ? AppStrings.getByLocale(appState.locale, 'theme_light')
+              : AppStrings.getByLocale(appState.locale, 'theme_dark'),
         );
       },
     );
@@ -197,7 +200,12 @@ class ThemeModeSwitcher extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             ListTile(
-              title: const Text('Light Mode'),
+              title: Text(
+                AppStrings.getByLocale(
+                  Provider.of<AppState>(context, listen: false).locale,
+                  'theme_light',
+                ),
+              ),
               leading: const Icon(Icons.light_mode_rounded),
               selected: appState.themeMode == 'light',
               onTap: () async {
@@ -205,7 +213,12 @@ class ThemeModeSwitcher extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('Dark Mode'),
+              title: Text(
+                AppStrings.getByLocale(
+                  Provider.of<AppState>(context, listen: false).locale,
+                  'theme_dark',
+                ),
+              ),
               leading: const Icon(Icons.dark_mode_rounded),
               selected: appState.themeMode == 'dark',
               onTap: () async {
@@ -213,7 +226,12 @@ class ThemeModeSwitcher extends StatelessWidget {
               },
             ),
             ListTile(
-              title: const Text('System Default'),
+              title: Text(
+                AppStrings.getByLocale(
+                  Provider.of<AppState>(context, listen: false).locale,
+                  'theme_system',
+                ),
+              ),
               leading: const Icon(Icons.brightness_auto_rounded),
               selected: appState.themeMode == 'system',
               onTap: () async {

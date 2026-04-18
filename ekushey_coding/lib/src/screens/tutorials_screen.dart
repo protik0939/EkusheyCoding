@@ -41,14 +41,13 @@ class _TutorialsScreenState extends State<TutorialsScreen> {
       setState(() => _tutorials = result);
     } catch (e) {
       if (!mounted) return;
-      final locale = context.read<AppState>().locale;
-      final errorMsg = AppStrings.getByLocale(
-        appState.locale,
-        'failed_load_tutorials',
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(appState.locale, 'failed_load_tutorials')}: $e',
+          ),
+        ),
       );
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('$errorMsg: $e')));
       setState(() => _tutorials = <TutorialItem>[]);
     } finally {
       if (mounted) {

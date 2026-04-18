@@ -73,8 +73,16 @@ class CertificatesScreen extends StatelessWidget {
                         Wrap(
                           spacing: 8,
                           children: <Widget>[
-                            Chip(label: Text('Level: ${c['level']}')),
-                            Chip(label: Text('Duration: ${c['duration']}')),
+                            Chip(
+                              label: Text(
+                                '${AppStrings.getByLocale(appState.locale, 'label_level')}: ${c['level']}',
+                              ),
+                            ),
+                            Chip(
+                              label: Text(
+                                '${AppStrings.getByLocale(appState.locale, 'label_duration')}: ${c['duration']}',
+                              ),
+                            ),
                           ],
                         ),
                         const SizedBox(height: 8),

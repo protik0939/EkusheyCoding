@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
 
@@ -90,9 +91,13 @@ class _BlogScreenState extends State<BlogScreen> {
       });
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Failed to load blogs: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'failed_load_blog')}: $e',
+          ),
+        ),
+      );
     } finally {
       if (mounted) {
         setState(() {

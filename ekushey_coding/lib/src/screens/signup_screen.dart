@@ -52,9 +52,13 @@ class _SignupScreenState extends State<SignupScreen> {
       widget.onSuccess();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Registration failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'create_account')} failed: $e',
+          ),
+        ),
+      );
     }
   }
 
@@ -66,7 +70,7 @@ class _SignupScreenState extends State<SignupScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(AppStrings.getByLocale(locale, 'signup_title')),
+        title: Text(AppStrings.getByLocale(locale, 'create_account')),
       ),
       body: GradientBackdrop(
         child: SafeArea(
@@ -82,37 +86,54 @@ class _SignupScreenState extends State<SignupScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Create account',
+                          AppStrings.getByLocale(locale, 'create_account'),
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.w800),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'Join Ekushey Coding to track progress and access profile features.',
-                        ),
+                        Text(AppStrings.getByLocale(locale, 'signup_subtitle')),
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _nameCtrl,
-                          decoration: const InputDecoration(
-                            labelText: 'Name',
-                            prefixIcon: Icon(Icons.person_outline_rounded),
+                          decoration: InputDecoration(
+                            labelText: AppStrings.getByLocale(
+                              locale,
+                              'label_name',
+                            ),
+                            prefixIcon: const Icon(
+                              Icons.person_outline_rounded,
+                            ),
                           ),
                           validator: (value) => (value?.trim().isEmpty ?? true)
-                              ? 'Name is required'
+                              ? AppStrings.getByLocale(
+                                  locale,
+                                  'err_name_required',
+                                )
                               : null,
                         ),
                         const SizedBox(height: 10),
                         TextFormField(
                           controller: _emailCtrl,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.mail_outline_rounded),
+                          decoration: InputDecoration(
+                            labelText: AppStrings.getByLocale(
+                              locale,
+                              'label_email',
+                            ),
+                            prefixIcon: const Icon(Icons.mail_outline_rounded),
                           ),
                           validator: (value) {
                             final v = value?.trim() ?? '';
-                            if (v.isEmpty) return 'Email is required';
-                            if (!v.contains('@')) return 'Enter a valid email';
+                            if (v.isEmpty)
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_email_required',
+                              );
+                            if (!v.contains('@'))
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_email_invalid',
+                              );
                             return null;
                           },
                         ),
@@ -121,7 +142,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: _passwordCtrl,
                           obscureText: _obscure,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: AppStrings.getByLocale(
+                              locale,
+                              'password',
+                            ),
                             prefixIcon: const Icon(Icons.lock_outline_rounded),
                             suffixIcon: IconButton(
                               onPressed: () =>
@@ -135,8 +159,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           validator: (value) {
                             final v = value ?? '';
-                            if (v.isEmpty) return 'Password is required';
-                            if (v.length < 8) return 'Minimum 8 characters';
+                            if (v.isEmpty)
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_password_required',
+                              );
+                            if (v.length < 8)
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_min_password',
+                              );
                             return null;
                           },
                         ),
@@ -145,7 +177,10 @@ class _SignupScreenState extends State<SignupScreen> {
                           controller: _confirmCtrl,
                           obscureText: _obscureConfirm,
                           decoration: InputDecoration(
-                            labelText: 'Confirm Password',
+                            labelText: AppStrings.getByLocale(
+                              locale,
+                              'confirm_password',
+                            ),
                             prefixIcon: const Icon(Icons.lock_person_outlined),
                             suffixIcon: IconButton(
                               onPressed: () => setState(
@@ -160,10 +195,16 @@ class _SignupScreenState extends State<SignupScreen> {
                           ),
                           validator: (value) {
                             if ((value ?? '').isEmpty) {
-                              return 'Confirm your password';
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_confirm_password',
+                              );
                             }
                             if (value != _passwordCtrl.text) {
-                              return 'Passwords do not match';
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_password_mismatch',
+                              );
                             }
                             return null;
                           },

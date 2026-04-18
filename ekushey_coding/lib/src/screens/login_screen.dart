@@ -45,9 +45,13 @@ class _LoginScreenState extends State<LoginScreen> {
       widget.onSuccess();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(
-        context,
-      ).showSnackBar(SnackBar(content: Text('Login failed: $e')));
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            '${AppStrings.getByLocale(context.read<AppState>().locale, 'login_title')}: $e',
+          ),
+        ),
+      );
     }
   }
 
@@ -75,26 +79,35 @@ class _LoginScreenState extends State<LoginScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Welcome back',
+                          AppStrings.getByLocale(locale, 'login_welcome'),
                           style: Theme.of(context).textTheme.headlineSmall
                               ?.copyWith(fontWeight: FontWeight.w800),
                         ),
                         const SizedBox(height: 8),
-                        Text(
-                          'Sign in to continue learning and managing your profile.',
-                        ),
+                        Text(AppStrings.getByLocale(locale, 'login_subtitle')),
                         const SizedBox(height: 16),
                         TextFormField(
                           controller: _emailCtrl,
                           keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            labelText: 'Email',
-                            prefixIcon: Icon(Icons.mail_outline_rounded),
+                          decoration: InputDecoration(
+                            labelText: AppStrings.getByLocale(
+                              locale,
+                              'label_email',
+                            ),
+                            prefixIcon: const Icon(Icons.mail_outline_rounded),
                           ),
                           validator: (value) {
                             final v = value?.trim() ?? '';
-                            if (v.isEmpty) return 'Email is required';
-                            if (!v.contains('@')) return 'Enter a valid email';
+                            if (v.isEmpty)
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_email_required',
+                              );
+                            if (!v.contains('@'))
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_email_invalid',
+                              );
                             return null;
                           },
                         ),
@@ -103,7 +116,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: _passwordCtrl,
                           obscureText: _obscure,
                           decoration: InputDecoration(
-                            labelText: 'Password',
+                            labelText: AppStrings.getByLocale(
+                              locale,
+                              'password',
+                            ),
                             prefixIcon: const Icon(Icons.lock_outline_rounded),
                             suffixIcon: IconButton(
                               onPressed: () =>
@@ -117,7 +133,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           validator: (value) {
                             if ((value ?? '').isEmpty) {
-                              return 'Password is required';
+                              return AppStrings.getByLocale(
+                                locale,
+                                'err_password_required',
+                              );
                             }
                             return null;
                           },

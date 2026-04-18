@@ -9,6 +9,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'JavaScript is one of the most popular programming languages in the world, powering dynamic web applications in browsers and servers.',
     version: 'ES2024',
     difficulty: 'Beginner to Advanced',
+    difficultyBn: 'শুরুতি থেকে উন্নত',
     features: <String>[
       'Easy to learn and use',
       'Runs in browser and Node.js',
@@ -16,12 +17,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Event-driven and functional patterns',
       'Cross-platform support',
     ],
+    featuresBn: <String>[
+      'সহজে শেখা যায় এবং ব্যবহারযোগ্য',
+      'ব্রাউজার এবং Node.js এ চলে',
+      'বৃহৎ ইকোসিস্টেম এবং সম্প্রদায়',
+      'ইভেন্ট-চালিত এবং ফাংশনাল প্যাটার্ন',
+      'ক্রস-প্ল্যাটফর্ম সমর্থন',
+    ],
     useCases: <String>[
       'Web app development',
       'Mobile apps with React Native',
       'Server-side apps with Node.js',
       'Desktop apps with Electron',
       'Tooling and automation',
+    ],
+    useCasesBn: <String>[
+      'ওয়েব অ্যাপ ডেভেলপমেন্ট',
+      'React Native দিয়ে মোবাইল অ্যাপ',
+      'Node.js দিয়ে সার্ভার-সাইড অ্যাপ',
+      'Electron দিয়ে ডেস্কটপ অ্যাপ',
+      'টুলিং এবং অটোমেশন',
     ],
   ),
   LanguageMeta(
@@ -32,6 +47,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'Python is known for clean syntax and is widely used in web, automation, AI, and analytics.',
     version: '3.12',
     difficulty: 'Beginner to Advanced',
+    difficultyBn: 'শুরুতি থেকে উন্নত',
     features: <String>[
       'Readable syntax',
       'Strong standard library',
@@ -39,12 +55,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Cross-platform',
       'Fast prototyping',
     ],
+    featuresBn: <String>[
+      'পঠনযোগ্য সিনট্যাক্স',
+      'শক্তিশালী স্ট্যান্ডার্ড লাইব্রেরি',
+      'AI/ML-এর জন্য চমৎকার ইকোসিস্টেম',
+      'ক্রস-প্ল্যাটফর্ম সমর্থন',
+      'দ্রুত প্রোটোটাইপিং',
+    ],
     useCases: <String>[
       'Data science and ML',
       'Web backends',
       'Scripting and automation',
       'Scientific computing',
       'API development',
+    ],
+    useCasesBn: <String>[
+      'ডেটা সায়েন্স এবং মেশিন লার্নিং',
+      'ওয়েব ব্যাকেন্ড',
+      'স্ক্রিপ্টিং ও অটোমেশন',
+      'বৈজ্ঞানিক হিসাব',
+      'API উন্নয়ন',
     ],
   ),
   LanguageMeta(
@@ -55,6 +85,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'Java powers enterprise systems with portability, performance, and mature tooling.',
     version: 'Java 21',
     difficulty: 'Intermediate to Advanced',
+    difficultyBn: 'মাঝারি থেকে উন্নত',
     features: <String>[
       'Platform independence through JVM',
       'Strong typing and OOP',
@@ -62,12 +93,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'High reliability',
       'Strong tooling',
     ],
+    featuresBn: <String>[
+      'JVM এর মাধ্যমে প্ল্যাটফর্ম স্বাধীনতা',
+      'শক্তিশালী টাইপিং ও OOP',
+      'পরিণত ফ্রেমওয়ার্ক',
+      'উচ্চ নির্ভরযোগ্যতা',
+      'শক্তিশালী টুলিং',
+    ],
     useCases: <String>[
       'Enterprise services',
       'Android development',
       'Large-scale APIs',
       'Data pipelines',
       'Cloud-native services',
+    ],
+    useCasesBn: <String>[
+      'এন্টারপ্রাইজ সার্ভিসেস',
+      'অ্যান্ড্রয়েড ডেভেলপমেন্ট',
+      'বৃহৎ পর্যায়ের API',
+      'ডেটা পাইপলাইন',
+      'ক্লাউড-নেটিভ সার্ভিসেস',
     ],
   ),
   LanguageMeta(
@@ -78,6 +123,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'C++ is used where performance and low-level control are critical.',
     version: 'C++23',
     difficulty: 'Intermediate to Advanced',
+    difficultyBn: 'মাঝারি থেকে উন্নত',
     features: <String>[
       'Excellent runtime performance',
       'Fine-grained memory control',
@@ -85,12 +131,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'STL containers and algorithms',
       'Cross-platform compilers',
     ],
+    featuresBn: <String>[
+      'চমৎকার রানটাইম পারফরম্যান্স',
+      'স্মৃতি নিয়ন্ত্রণে সূক্ষ্ম নিয়ন্ত্রণ',
+      'বহু-প্যারাডাইম সাপোর্ট',
+      'STL কনটেইনার এবং অ্যালগরিদম',
+      'ক্রস-প্ল্যাটফর্ম কম্পাইলার',
+    ],
     useCases: <String>[
       'System software',
       'Game engines',
       'Embedded systems',
       'Realtime platforms',
       'Performance-critical services',
+    ],
+    useCasesBn: <String>[
+      'সিস্টেম সফটওয়্যার',
+      'গেম ইঞ্জিন',
+      'এম্বেডেড সিস্টেম',
+      'রিয়েলটাইম প্ল্যাটফর্ম',
+      'পারফরম্যান্স-সংবেদনশীল সার্ভিসেস',
     ],
   ),
   LanguageMeta(
@@ -101,6 +161,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'C# combines productivity and performance with the .NET ecosystem.',
     version: 'C# 12',
     difficulty: 'Intermediate',
+    difficultyBn: 'মাঝারি',
     features: <String>[
       'Type-safe and modern syntax',
       '.NET ecosystem integration',
@@ -108,12 +169,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Async programming support',
       'Cross-platform runtime',
     ],
+    featuresBn: <String>[
+      'টাইপ-সেফ এবং আধুনিক সিনট্যাক্স',
+      '.NET ইকোসিস্টেম ইন্টিগ্রেশন',
+      'LINQ কুয়েরি',
+      'অ্যাসিঙ্ক প্রোগ্রামিং সাপোর্ট',
+      'ক্রস-প্ল্যাটফর্ম রানটাইম',
+    ],
     useCases: <String>[
       'Backend APIs',
       'Desktop applications',
       'Unity game development',
       'Cloud services',
       'Mobile apps',
+    ],
+    useCasesBn: <String>[
+      'ব্যাকএন্ড API',
+      'ডেস্কটপ অ্যাপ্লিকেশন',
+      'Unity গেম ডেভেলপমেন্ট',
+      'ক্লাউড সার্ভিসেস',
+      'মোবাইল অ্যাপ',
     ],
   ),
   LanguageMeta(
@@ -124,6 +199,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'TypeScript improves large JavaScript codebases with types and safer refactoring.',
     version: '5.3',
     difficulty: 'Intermediate',
+    difficultyBn: 'মাঝারি',
     features: <String>[
       'Static type checking',
       'Excellent editor tooling',
@@ -131,12 +207,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Compatible with JavaScript',
       'Safer large-scale code',
     ],
+    featuresBn: <String>[
+      'স্ট্যাটিক টাইপ চেকিং',
+      'চমৎকার এডিটর টুলিং',
+      'শক্তিশালী ল্যাঙ্গুয়েজ সার্ভিস',
+      'জাভাস্ক্রিপ্টের সাথে সামঞ্জস্যপূর্ণ',
+      'বড় কোডবেসে নিরাপদ',
+    ],
     useCases: <String>[
       'Frontend apps',
       'Node.js backends',
       'Monorepos',
       'Enterprise web systems',
       'Shared type-safe SDKs',
+    ],
+    useCasesBn: <String>[
+      'ফ্রন্টএন্ড অ্যাপস',
+      'Node.js ব্যাকেন্ড',
+      'মনোরেপো',
+      'এন্টারপ্রাইজ ওয়েব সিস্টেম',
+      'শেয়ার্ড টাইপ-সেফ SDK',
     ],
   ),
   LanguageMeta(
@@ -147,6 +237,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'PHP is a mature server-side language with rich frameworks and hosting support.',
     version: '8.3',
     difficulty: 'Beginner to Intermediate',
+    difficultyBn: 'শুরুতি থেকে মাঝারি',
     features: <String>[
       'Simple deployment',
       'Strong framework support',
@@ -154,12 +245,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Large community',
       'Broad hosting compatibility',
     ],
+    featuresBn: <String>[
+      'সহজ ডেপ্লয়মেন্ট',
+      'শক্তিশালী ফ্রেমওয়ার্ক সমর্থন',
+      'ইন-বিল্ট ওয়েব ফোকাস',
+      'বড় কমিউনিটি',
+      'ব্যাপক হোস্টিং সামঞ্জস্য',
+    ],
     useCases: <String>[
       'CMS and blogs',
       'Web APIs',
       'E-commerce systems',
       'Business apps',
       'Backend services',
+    ],
+    useCasesBn: <String>[
+      'সিএমএস এবং ব্লগ',
+      'ওয়েব API',
+      'ই-কমার্স সিস্টেম',
+      'বিজনেস অ্যাপস',
+      'ব্যাকএন্ড সার্ভিসেস',
     ],
   ),
   LanguageMeta(
@@ -169,6 +274,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
     description: 'Ruby emphasizes developer happiness and expressive syntax.',
     version: '3.3',
     difficulty: 'Beginner to Intermediate',
+    difficultyBn: 'শুরুতি থেকে মাঝারি',
     features: <String>[
       'Readable code',
       'Object-oriented core',
@@ -176,12 +282,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Mature framework ecosystem',
       'Fast prototyping',
     ],
+    featuresBn: <String>[
+      'পঠনযোগ্য কোড',
+      'অবজেক্ট-ওরিয়েন্টেড কোর',
+      'শক্তিশালী মেটপ্রোগ্রামিং',
+      'পরিণত ফ্রেমওয়ার্ক ইকোসিস্টেম',
+      'দ্রুত প্রোটোটাইপিং',
+    ],
     useCases: <String>[
       'Web development',
       'Automation scripts',
       'Internal tools',
       'Data processing',
       'Rapid MVPs',
+    ],
+    useCasesBn: <String>[
+      'ওয়েব ডেভেলপমেন্ট',
+      'অটোমেশন স্ক্রিপ্ট',
+      'ইন্টার্নাল টুলস',
+      'ডেটা প্রক্রিয়াকরণ',
+      'দ্রুত এমভিপি নির্মাণ',
     ],
   ),
   LanguageMeta(
@@ -192,6 +312,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'Go is built for reliable, scalable services with simple concurrency.',
     version: '1.22',
     difficulty: 'Intermediate',
+    difficultyBn: 'মাঝারি',
     features: <String>[
       'Fast compilation',
       'Goroutines and channels',
@@ -199,12 +320,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Strong standard library',
       'Reliable static binaries',
     ],
+    featuresBn: <String>[
+      'দ্রুত কম্পাইলেশন',
+      'গরুটিন ও চ্যানেল',
+      'ন্যূনতম সিনট্যাক্স',
+      'শক্তিশালী স্ট্যান্ডার্ড লাইব্রেরি',
+      'নির্ভরযোগ্য স্ট্যাটিক বাইনারি',
+    ],
     useCases: <String>[
       'Microservices',
       'CLI tooling',
       'Networking systems',
       'Cloud infrastructure',
       'Distributed services',
+    ],
+    useCasesBn: <String>[
+      'মাইক্রোসার্ভিসেস',
+      'কমান্ড-লাইন টুলিং',
+      'নেটওয়ার্কিং সিস্টেম',
+      'ক্লাউড অবকাঠামো',
+      'বন্টিত সার্ভিসেস',
     ],
   ),
   LanguageMeta(
@@ -215,6 +350,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'Rust provides memory safety and performance without garbage collection.',
     version: '1.75',
     difficulty: 'Advanced',
+    difficultyBn: 'উন্নত',
     features: <String>[
       'Ownership model',
       'Zero-cost abstractions',
@@ -222,12 +358,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Modern package manager',
       'High performance',
     ],
+    featuresBn: <String>[
+      'অন্যদের মালিকানার মডেল',
+      'জিরো-কস্ট অ্যাবস্ট্র্যাকশন',
+      'নির্ভয়ে কনকারেন্সি',
+      'আধুনিক প্যাকেজ ম্যানেজার',
+      'উচ্চ পারফরম্যান্স',
+    ],
     useCases: <String>[
       'Systems programming',
       'WASM applications',
       'Security-focused services',
       'Embedded systems',
       'Performance-sensitive tooling',
+    ],
+    useCasesBn: <String>[
+      'সিস্টেম প্রোগ্রামিং',
+      'ডব্লিউএএসএম অ্যাপ্লিকেশন',
+      'সুরক্ষা-কেন্দ্রিক সার্ভিসেস',
+      'এম্বেডেড সিস্টেম',
+      'পারফরম্যান্স-সংবেদনশীল টুলিং',
     ],
   ),
   LanguageMeta(
@@ -238,6 +388,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'Swift is Apple’s modern language for performant and safe app development.',
     version: '5.9',
     difficulty: 'Intermediate',
+    difficultyBn: 'মাঝারি',
     features: <String>[
       'Type safety',
       'Fast runtime',
@@ -245,12 +396,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Playgrounds',
       'Strong Apple ecosystem integration',
     ],
+    featuresBn: <String>[
+      'টাইপ সেফটি',
+      'দ্রুত রানটাইম',
+      'আধুনিক সিনট্যাক্স',
+      'প্লে গ্ৰাউন্ড',
+      'শক্তিশালী অ্যাপল ইকোসিস্টেম ইন্টিগ্রেশন',
+    ],
     useCases: <String>[
       'iOS apps',
       'macOS apps',
       'watchOS/tvOS apps',
       'Server-side Swift',
       'ML features with Apple frameworks',
+    ],
+    useCasesBn: <String>[
+      'iOS অ্যাপ',
+      'macOS অ্যাপ',
+      'watchOS/tvOS অ্যাপ',
+      'সার্ভার-সাইড সুইফট',
+      'অ্যাপল ফ্রেমওয়ার্ক দিয়ে এমএল ফিচার',
     ],
   ),
   LanguageMeta(
@@ -261,6 +426,7 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
         'Kotlin is concise and expressive with full Java interop and Android support.',
     version: '2.0',
     difficulty: 'Intermediate',
+    difficultyBn: 'মাঝারি',
     features: <String>[
       'Null safety',
       'Concise syntax',
@@ -268,12 +434,26 @@ const List<LanguageMeta> kLanguages = <LanguageMeta>[
       'Coroutines',
       'Strong Android support',
     ],
+    featuresBn: <String>[
+      'নাল সেফটি',
+      'সংক্ষিপ্ত সিনট্যাক্স',
+      'জেভিএম আন্তঃপরিচিতি',
+      'করউটিনস',
+      'মজবুত অ্যান্ড্রয়েড সমর্থন',
+    ],
     useCases: <String>[
       'Android apps',
       'Backend services',
       'Multiplatform apps',
       'JVM tooling',
       'Domain-focused libraries',
+    ],
+    useCasesBn: <String>[
+      'অ্যান্ড্রয়েড অ্যাপ',
+      'ব্যাকএন্ড সার্ভিসেস',
+      'মাল্টিপ্ল্যাটফর্ম অ্যাপ',
+      'জেভিএম টুলিং',
+      'ডোমেইন-ফোকাসড লাইব্রেরি',
     ],
   ),
 ];
