@@ -131,7 +131,10 @@ class _BlogScreenState extends State<BlogScreen> {
                 textInputAction: TextInputAction.search,
                 onSubmitted: (_) => _loadBlogs(reset: true),
                 decoration: InputDecoration(
-                  hintText: AppStrings.getByLocale(locale, 'search_articles_hint'),
+                  hintText: AppStrings.getByLocale(
+                    locale,
+                    'search_articles_hint',
+                  ),
                   prefixIcon: const Icon(Icons.search_rounded),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -154,9 +157,11 @@ class _BlogScreenState extends State<BlogScreen> {
                     final selected = category == _selectedCategory;
                     return ChoiceChip(
                       selected: selected,
-                      label: Text(category == 'All'
-                          ? AppStrings.getByLocale(locale, 'filter_all')
-                          : category),
+                      label: Text(
+                        category == 'All'
+                            ? AppStrings.getByLocale(locale, 'filter_all')
+                            : category,
+                      ),
                       onSelected: (_) {
                         setState(() => _selectedCategory = category);
                         _loadBlogs(reset: true);
@@ -184,8 +189,10 @@ class _BlogScreenState extends State<BlogScreen> {
                 if (_blogs.length <= 1)
                   EmptyStateCard(
                     title: AppStrings.getByLocale(locale, 'empty_blog_title'),
-                    subtitle:
-                        AppStrings.getByLocale(locale, 'empty_blog_subtitle'),
+                    subtitle: AppStrings.getByLocale(
+                      locale,
+                      'empty_blog_subtitle',
+                    ),
                   )
                 else
                   ..._blogs
@@ -203,7 +210,7 @@ class _BlogScreenState extends State<BlogScreen> {
                 if (_page < _lastPage)
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
-            child: FilledButton.tonalIcon(
+                    child: FilledButton.tonalIcon(
                       onPressed: _loadingMore
                           ? null
                           : () => _loadBlogs(reset: false),
@@ -214,9 +221,11 @@ class _BlogScreenState extends State<BlogScreen> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.expand_more_rounded),
-            label: Text(_loadingMore
-              ? AppStrings.getByLocale(locale, 'loading')
-              : AppStrings.getByLocale(locale, 'load_more')),
+                      label: Text(
+                        _loadingMore
+                            ? AppStrings.getByLocale(locale, 'loading')
+                            : AppStrings.getByLocale(locale, 'load_more'),
+                      ),
                     ),
                   ),
               ],

@@ -338,7 +338,8 @@ class AppStrings {
     'duration': 'সময়কাল',
     'failed_load_exercises': 'এক্সারসাইজ লোড করতে ব্যর্থ',
     'empty_exercises_found_title': 'কোনো এক্সারসাইজ পাওয়া যায়নি',
-    'empty_exercises_found_subtitle': 'ফিল্টার বা সার্চ শর্ত পরিবর্তন করে দেখুন।',
+    'empty_exercises_found_subtitle':
+        'ফিল্টার বা সার্চ শর্ত পরিবর্তন করে দেখুন।',
     'label_problem': 'সমস্যা',
     'label_input': 'ইনপুট',
     'label_output': 'আউটপুট',

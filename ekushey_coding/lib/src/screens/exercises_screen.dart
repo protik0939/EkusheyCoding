@@ -233,8 +233,14 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                 )
               else if (_items.isEmpty)
                 EmptyStateCard(
-                  title: AppStrings.getByLocale(locale, 'empty_exercises_found_title'),
-                  subtitle: AppStrings.getByLocale(locale, 'empty_exercises_found_subtitle'),
+                  title: AppStrings.getByLocale(
+                    locale,
+                    'empty_exercises_found_title',
+                  ),
+                  subtitle: AppStrings.getByLocale(
+                    locale,
+                    'empty_exercises_found_subtitle',
+                  ),
                   icon: Icons.code_off_rounded,
                 )
               else
@@ -297,7 +303,7 @@ class _ExerciseCard extends StatelessWidget {
           item.titleByLocale(locale),
           style: const TextStyle(fontWeight: FontWeight.w700),
         ),
-                subtitle: Row(
+        subtitle: Row(
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 6),
@@ -339,8 +345,14 @@ class _ExerciseCard extends StatelessWidget {
                   title: AppStrings.getByLocale(locale, 'label_problem'),
                   text: item.problemByLocale(locale),
                 ),
-                _InfoBlock(title: AppStrings.getByLocale(locale, 'label_input'), text: item.inputByLocale(locale)),
-                _InfoBlock(title: AppStrings.getByLocale(locale, 'label_output'), text: item.outputByLocale(locale)),
+                _InfoBlock(
+                  title: AppStrings.getByLocale(locale, 'label_input'),
+                  text: item.inputByLocale(locale),
+                ),
+                _InfoBlock(
+                  title: AppStrings.getByLocale(locale, 'label_output'),
+                  text: item.outputByLocale(locale),
+                ),
                 _InfoBlock(
                   title: AppStrings.getByLocale(locale, 'label_sample_input'),
                   text: item.sampleInputByLocale(locale),
@@ -350,9 +362,18 @@ class _ExerciseCard extends StatelessWidget {
                   text: item.sampleOutputByLocale(locale),
                 ),
                 if ((item.starterCode ?? '').isNotEmpty)
-                  _CodeBlock(title: AppStrings.getByLocale(locale, 'label_starter_code'), code: item.starterCode!),
+                  _CodeBlock(
+                    title: AppStrings.getByLocale(locale, 'label_starter_code'),
+                    code: item.starterCode!,
+                  ),
                 if ((item.solutionCode ?? '').isNotEmpty)
-                  _CodeBlock(title: AppStrings.getByLocale(locale, 'label_solution_code'), code: item.solutionCode!),
+                  _CodeBlock(
+                    title: AppStrings.getByLocale(
+                      locale,
+                      'label_solution_code',
+                    ),
+                    code: item.solutionCode!,
+                  ),
               ],
             ),
           ),

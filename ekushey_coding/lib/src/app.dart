@@ -218,31 +218,31 @@ class _AppShellState extends State<AppShell> {
       bottomNavigationBar: _LiquidGlassBottomNav(
         selectedIndex: _index,
         onDestinationSelected: (int value) => setState(() => _index = value),
-        destinations: const <_LiquidGlassDestination>[
+        destinations: <_LiquidGlassDestination>[
           _LiquidGlassDestination(
             icon: Icons.home_outlined,
             selectedIcon: Icons.home_rounded,
-            label: 'Home',
+            label: AppStrings.getByLocale(appState.locale, 'page_home'),
           ),
           _LiquidGlassDestination(
             icon: Icons.menu_book_outlined,
             selectedIcon: Icons.menu_book_rounded,
-            label: 'Tutorials',
+            label: AppStrings.getByLocale(appState.locale, 'page_tutorials'),
           ),
           _LiquidGlassDestination(
             icon: Icons.code_outlined,
             selectedIcon: Icons.code_rounded,
-            label: 'Exercises',
+            label: AppStrings.getByLocale(appState.locale, 'page_exercises'),
           ),
           _LiquidGlassDestination(
             icon: Icons.article_outlined,
             selectedIcon: Icons.article_rounded,
-            label: 'Blog',
+            label: AppStrings.getByLocale(appState.locale, 'page_blog'),
           ),
           _LiquidGlassDestination(
             icon: Icons.person_outline_rounded,
             selectedIcon: Icons.person_rounded,
-            label: 'Profile',
+            label: AppStrings.getByLocale(appState.locale, 'page_profile'),
           ),
         ],
       ),
@@ -607,39 +607,50 @@ class _LiquidGlassNavItem extends StatelessWidget {
           child: InkWell(
             borderRadius: BorderRadius.circular(22),
             onTap: onTap,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 260),
-              curve: Curves.easeOutCubic,
-              padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(22),
-                gradient: selected
-                    ? LinearGradient(
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
-                        colors: <Color>[
-                          theme.colorScheme.primaryContainer.withValues(
-                            alpha: 0.95,
-                          ),
-                          theme.colorScheme.primary.withValues(alpha: 0.70),
-                        ],
-                      )
-                    : null,
-                border: selected
-                    ? Border.all(color: Colors.white.withValues(alpha: 0.45))
-                    : null,
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 260),
+                curve: Curves.easeOutCubic,
+                padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 8),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22),
+                  gradient: selected
+                      ? LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: <Color>[
+                            theme.colorScheme.primaryContainer.withValues(
+                              alpha: 0.95,
+                            ),
+                            theme.colorScheme.primary.withValues(alpha: 0.70),
+                          ],
+                        )
+                      : null,
+                  border: selected
+                      ? Border.all(color: Colors.white.withValues(alpha: 0.45))
+                      : null,
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
+                  children: <Widget>[
+                    Icon(
+                      selected ? destination.selectedIcon : destination.icon,
+                      color: foreground,
+                      size: 20,
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      destination.label,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: foreground,
+                        fontWeight: selected ? FontWeight.w700 : FontWeight.w500,
+                      ),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  ],
+                ),
               ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Icon(
-                    selected ? destination.selectedIcon : destination.icon,
-                    color: foreground,
-                    size: 21,
-                  ),
-                ],
-              ),
-            ),
           ),
         ),
       ),
