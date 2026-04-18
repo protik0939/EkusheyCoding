@@ -111,6 +111,15 @@ class AppStrings {
     'difficulty_hard': 'Hard',
     'duration': 'Duration',
     'failed_load_exercises': 'Failed to load exercises',
+    'empty_exercises_found_title': 'No exercises found',
+    'empty_exercises_found_subtitle': 'Try changing filters or search terms.',
+    'label_problem': 'Problem',
+    'label_input': 'Input',
+    'label_output': 'Output',
+    'label_sample_input': 'Sample Input',
+    'label_sample_output': 'Sample Output',
+    'label_starter_code': 'Starter Code',
+    'label_solution_code': 'Solution Code',
 
     // Blog Screen
     'page_blog': 'Blog',
@@ -325,6 +334,15 @@ class AppStrings {
     'difficulty_hard': 'কঠিন',
     'duration': 'সময়কাল',
     'failed_load_exercises': 'এক্সারসাইজ লোড করতে ব্যর্থ',
+    'empty_exercises_found_title': 'কোনো এক্সারসাইজ পাওয়া যায়নি',
+    'empty_exercises_found_subtitle': 'ফিল্টার বা সার্চ শর্ত পরিবর্তন করে দেখুন।',
+    'label_problem': 'সমস্যা',
+    'label_input': 'ইনপুট',
+    'label_output': 'আউটপুট',
+    'label_sample_input': 'নমুনা ইনপুট',
+    'label_sample_output': 'নমুনা আউটপুট',
+    'label_starter_code': 'স্টার্টার কোড',
+    'label_solution_code': 'সমাধান কোড',
 
     // Blog Screen
     'page_blog': 'ব্লগ',

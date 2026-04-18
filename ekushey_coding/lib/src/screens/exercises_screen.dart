@@ -209,7 +209,7 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                             ...kLanguages.map(
                               (lang) => DropdownMenuItem(
                                 value: lang.id,
-                                child: Text(lang.name),
+                                child: Text(lang.getLocalizedName(locale)),
                               ),
                             ),
                           ],
@@ -232,9 +232,9 @@ class _ExercisesScreenState extends State<ExercisesScreen> {
                   ),
                 )
               else if (_items.isEmpty)
-                const EmptyStateCard(
-                  title: 'No exercises found',
-                  subtitle: 'Try changing filters or search terms.',
+                EmptyStateCard(
+                  title: AppStrings.getByLocale(locale, 'empty_exercises_found_title'),
+                  subtitle: AppStrings.getByLocale(locale, 'empty_exercises_found_subtitle'),
                   icon: Icons.code_off_rounded,
                 )
               else
@@ -297,7 +297,7 @@ class _ExerciseCard extends StatelessWidget {
           item.titleByLocale(locale),
           style: const TextStyle(fontWeight: FontWeight.w700),
         ),
-        subtitle: Row(
+                subtitle: Row(
           children: <Widget>[
             Container(
               margin: const EdgeInsets.only(top: 6),
@@ -312,7 +312,7 @@ class _ExerciseCard extends StatelessWidget {
               ),
             ),
             const SizedBox(width: 8),
-            Text('Views ${item.views}'),
+            Text('${AppStrings.getByLocale(locale, 'views')} ${item.views}'),
           ],
         ),
         children: <Widget>[
@@ -327,7 +327,7 @@ class _ExerciseCard extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.only(bottom: 8),
                       child: Text(
-                        'Language: ${item.languageName}',
+                        '${AppStrings.getByLocale(locale, 'language_label')}: ${item.languageName}',
                         style: TextStyle(
                           color: Theme.of(context).colorScheme.primary,
                           fontWeight: FontWeight.w700,
@@ -336,23 +336,23 @@ class _ExerciseCard extends StatelessWidget {
                     ),
                   ),
                 _InfoBlock(
-                  title: 'Problem',
+                  title: AppStrings.getByLocale(locale, 'label_problem'),
                   text: item.problemByLocale(locale),
                 ),
-                _InfoBlock(title: 'Input', text: item.inputByLocale(locale)),
-                _InfoBlock(title: 'Output', text: item.outputByLocale(locale)),
+                _InfoBlock(title: AppStrings.getByLocale(locale, 'label_input'), text: item.inputByLocale(locale)),
+                _InfoBlock(title: AppStrings.getByLocale(locale, 'label_output'), text: item.outputByLocale(locale)),
                 _InfoBlock(
-                  title: 'Sample Input',
+                  title: AppStrings.getByLocale(locale, 'label_sample_input'),
                   text: item.sampleInputByLocale(locale),
                 ),
                 _InfoBlock(
-                  title: 'Sample Output',
+                  title: AppStrings.getByLocale(locale, 'label_sample_output'),
                   text: item.sampleOutputByLocale(locale),
                 ),
                 if ((item.starterCode ?? '').isNotEmpty)
-                  _CodeBlock(title: 'Starter Code', code: item.starterCode!),
+                  _CodeBlock(title: AppStrings.getByLocale(locale, 'label_starter_code'), code: item.starterCode!),
                 if ((item.solutionCode ?? '').isNotEmpty)
-                  _CodeBlock(title: 'Solution Code', code: item.solutionCode!),
+                  _CodeBlock(title: AppStrings.getByLocale(locale, 'label_solution_code'), code: item.solutionCode!),
               ],
             ),
           ),
