@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -182,48 +184,139 @@ class _TutorialGroupCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final lessonsLabel = AppStrings.getByLocale(locale, 'lessons_count');
-    return Card(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: ExpansionTile(
-        initiallyExpanded: tutorials.length < 4,
-        title: Text(
-          title,
-          style: Theme.of(
-            context,
-          ).textTheme.titleMedium?.copyWith(fontWeight: FontWeight.w700),
-        ),
-        subtitle: Text('${tutorials.length} $lessonsLabel'),
-        trailing: IconButton(
-          onPressed: onHeaderTap,
-          icon: const Icon(Icons.open_in_new_rounded),
-        ),
-        children: tutorials
-            .map(
-              (TutorialItem tutorial) => ListTile(
-                leading: CircleAvatar(
-                  radius: 14,
-                  child: Text('${tutorial.order}'),
-                ),
-                title: Text(tutorial.getTitleByLocale(locale)),
-                subtitle: Text(
-                  tutorial.getContentByLocale(locale),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
-                ),
-                trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
-                onTap: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute<void>(
-                      builder: (BuildContext context) => TutorialDetailScreen(
-                        tutorial: tutorial,
-                        locale: locale,
+    final theme = Theme.of(context);
+    final isDark = theme.brightness == Brightness.dark;
+    final colorScheme = theme.colorScheme;
+    final glassTop = isDark
+        ? const Color(0xFF0D203F).withValues(alpha: 0.72)
+        : const Color(0xFFF3F7FF).withValues(alpha: 0.88);
+    final glassBottom = isDark
+        ? const Color(0xFF08152C).withValues(alpha: 0.62)
+        : const Color(0xFFDCEAFF).withValues(alpha: 0.70);
+    final glassStroke = isDark
+        ? const Color(0xFF3B5F92).withValues(alpha: 0.48)
+        : const Color(0xFF9FBDE5).withValues(alpha: 0.72);
+    final shadowColor = isDark
+        ? Colors.black.withValues(alpha: 0.42)
+        : const Color(0x14355C8A);
+    final sheenColor = isDark
+        ? const Color(0xFF8FB7FF).withValues(alpha: 0.16)
+        : Colors.white.withValues(alpha: 0.42);
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 12),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: <BoxShadow>[
+          BoxShadow(
+            color: shadowColor,
+            blurRadius: 24,
+            offset: const Offset(0, 10),
+          ),
+        ],
+      ),
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(20),
+        child: BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 14, sigmaY: 14),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: <Color>[glassTop, glassBottom],
+              ),
+              border: Border.all(color: glassStroke, width: 1),
+            ),
+            child: Stack(
+              children: <Widget>[
+                Positioned(
+                  top: -42,
+                  right: -26,
+                  child: IgnorePointer(
+                    child: Container(
+                      width: 130,
+                      height: 130,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        gradient: RadialGradient(
+                          colors: <Color>[sheenColor, Colors.transparent],
+                        ),
                       ),
                     ),
-                  );
-                },
-              ),
-            )
-            .toList(),
+                  ),
+                ),
+                Theme(
+                  data: theme.copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    shape: const Border(),
+                    collapsedShape: const Border(),
+                    tilePadding: const EdgeInsets.fromLTRB(16, 10, 8, 10),
+                    childrenPadding: const EdgeInsets.fromLTRB(10, 0, 10, 10),
+                    initiallyExpanded: tutorials.length < 4,
+                    title: Text(
+                      title,
+                      style: theme.textTheme.titleMedium?.copyWith(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 4),
+                      child: Text('${tutorials.length} $lessonsLabel'),
+                    ),
+                    trailing: IconButton(
+                      onPressed: onHeaderTap,
+                      icon: const Icon(Icons.open_in_new_rounded),
+                    ),
+                    children: tutorials
+                        .map(
+                          (TutorialItem tutorial) => ListTile(
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            leading: CircleAvatar(
+                              radius: 14,
+                              backgroundColor: colorScheme.primary.withValues(
+                                alpha: isDark ? 0.24 : 0.14,
+                              ),
+                              foregroundColor: colorScheme.primary,
+                              child: Text(
+                                '${tutorial.order}',
+                                style: const TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                            ),
+                            title: Text(tutorial.getTitleByLocale(locale)),
+                            subtitle: Text(
+                              tutorial.getContentByLocale(locale),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 16,
+                            ),
+                            onTap: () {
+                              Navigator.of(context).push(
+                                MaterialPageRoute<void>(
+                                  builder: (BuildContext context) =>
+                                      TutorialDetailScreen(
+                                        tutorial: tutorial,
+                                        locale: locale,
+                                      ),
+                                ),
+                              );
+                            },
+                          ),
+                        )
+                        .toList(),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
