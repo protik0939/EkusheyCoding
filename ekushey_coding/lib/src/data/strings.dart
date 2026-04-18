@@ -70,6 +70,17 @@ class AppStrings {
     'lang_swift_desc': 'Modern language for iOS development',
     'lang_kotlin_name': 'Kotlin',
     'lang_kotlin_desc': 'Modern language for Android development',
+
+    // Tutorials Screen
+    'page_tutorials': 'Tutorials',
+    'tutorials_subtitle':
+        'Step-by-step lessons grouped by programming language.',
+    'filter_all': 'All',
+    'empty_tutorials_title': 'No tutorials available',
+    'empty_tutorials_subtitle':
+        'Tutorials for this language will appear once published.',
+    'lessons_count': 'lessons',
+    'failed_load_tutorials': 'Failed to load tutorials',
   };
 
   // Bangla translations
@@ -133,5 +144,15 @@ class AppStrings {
     'lang_swift_desc': 'আইওএস ডেভেলপমেন্টের জন্য আধুনিক ভাষা',
     'lang_kotlin_name': 'কটলিন',
     'lang_kotlin_desc': 'অ্যান্ড্রয়েড ডেভেলপমেন্টের জন্য আধুনিক ভাষা',
+
+    // Tutorials Screen
+    'page_tutorials': 'টিউটোরিয়াল',
+    'tutorials_subtitle': 'প্রোগ্রামিং ভাষা অনুযায়ী সংগঠিত ধাপে ধাপে পাঠ।',
+    'filter_all': 'সব',
+    'empty_tutorials_title': 'কোনো টিউটোরিয়াল উপলব্ধ নেই',
+    'empty_tutorials_subtitle':
+        'এই ভাষার টিউটোরিয়াল প্রকাশিত হলে এখানে প্রদর্শিত হবে।',
+    'lessons_count': 'পাঠ',
+    'failed_load_tutorials': 'টিউটোরিয়াল লোড করতে ব্যর্থ',
   };
 }
