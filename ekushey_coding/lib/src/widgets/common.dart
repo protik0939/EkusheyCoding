@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../app_state.dart';
 import '../theme.dart';
 
 class GradientBackdrop extends StatelessWidget {
@@ -151,6 +153,76 @@ class EmptyStateCard extends StatelessWidget {
           ],
         ),
       ),
+    );
+  }
+}
+
+class ThemeToggleButton extends StatelessWidget {
+  const ThemeToggleButton({super.key, this.onPressed});
+
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AppState>(
+      builder: (context, appState, _) {
+        final isDark =
+            appState.themeMode == 'dark' ||
+            (appState.themeMode == 'system' &&
+                MediaQuery.of(context).platformBrightness == Brightness.dark);
+
+        return IconButton(
+          icon: Icon(
+            isDark ? Icons.light_mode_rounded : Icons.dark_mode_rounded,
+          ),
+          onPressed: () async {
+            await appState.toggleThemeMode();
+            onPressed?.call();
+          },
+          tooltip: isDark ? 'Light Mode' : 'Dark Mode',
+        );
+      },
+    );
+  }
+}
+
+class ThemeModeSwitcher extends StatelessWidget {
+  const ThemeModeSwitcher({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<AppState>(
+      builder: (context, appState, _) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              title: const Text('Light Mode'),
+              leading: const Icon(Icons.light_mode_rounded),
+              selected: appState.themeMode == 'light',
+              onTap: () async {
+                await appState.setThemeMode('light');
+              },
+            ),
+            ListTile(
+              title: const Text('Dark Mode'),
+              leading: const Icon(Icons.dark_mode_rounded),
+              selected: appState.themeMode == 'dark',
+              onTap: () async {
+                await appState.setThemeMode('dark');
+              },
+            ),
+            ListTile(
+              title: const Text('System Default'),
+              leading: const Icon(Icons.brightness_auto_rounded),
+              selected: appState.themeMode == 'system',
+              onTap: () async {
+                await appState.setThemeMode('system');
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

@@ -8,6 +8,7 @@ class SessionStore {
   static const String _tokenKey = 'auth_token';
   static const String _userKey = 'auth_user';
   static const String _localeKey = 'app_locale';
+  static const String _themeModeKey = 'theme_mode';
 
   Future<void> saveSession({
     required String token,
@@ -50,5 +51,15 @@ class SessionStore {
   Future<String> getLocale() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString(_localeKey) ?? 'en';
+  }
+
+  Future<void> saveThemeMode(String mode) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(_themeModeKey, mode);
+  }
+
+  Future<String> getThemeMode() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getString(_themeModeKey) ?? 'system';
   }
 }

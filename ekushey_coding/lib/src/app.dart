@@ -19,6 +19,19 @@ import 'screens/signup_screen.dart';
 import 'screens/tutorials_screen.dart';
 import 'session_store.dart';
 import 'theme.dart';
+import 'widgets/common.dart';
+
+ThemeMode _stringToThemeMode(String mode) {
+  switch (mode) {
+    case 'light':
+      return ThemeMode.light;
+    case 'dark':
+      return ThemeMode.dark;
+    case 'system':
+    default:
+      return ThemeMode.system;
+  }
+}
 
 class EkusheyCodingApp extends StatelessWidget {
   const EkusheyCodingApp({super.key});
@@ -34,7 +47,7 @@ class EkusheyCodingApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: buildEkusheyTheme(Brightness.light),
             darkTheme: buildEkusheyTheme(Brightness.dark),
-            themeMode: ThemeMode.system,
+            themeMode: _stringToThemeMode(appState.themeMode),
             home: appState.isInitialized
                 ? const AppShell()
                 : const Scaffold(
@@ -150,6 +163,7 @@ class _AppShellState extends State<AppShell> {
           ],
         ),
         actions: <Widget>[
+          const ThemeToggleButton(),
           TextButton.icon(
             onPressed: () {
               final locale = appState.locale == 'en' ? 'bn' : 'en';

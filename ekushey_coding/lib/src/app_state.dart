@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'models.dart';
 import 'services.dart';
@@ -9,7 +10,9 @@ class AppState extends ChangeNotifier {
     : _sessionStore = sessionStore,
       _apiClient = apiClient ?? ApiClient(),
       _isInitialized = false,
-      _isBusy = false;
+      _isBusy = false,
+      _locale = 'en',
+      _themeMode = 'system';
 
   final SessionStore _sessionStore;
   final ApiClient _apiClient;
@@ -22,12 +25,14 @@ class AppState extends ChangeNotifier {
   bool _isInitialized;
   bool _isBusy;
   String _locale = 'en';
+  String _themeMode = 'system';
   String? _token;
   UserModel? _user;
 
   bool get isInitialized => _isInitialized;
   bool get isBusy => _isBusy;
   String get locale => _locale;
+  String get themeMode => _themeMode;
   String? get token => _token;
   UserModel? get user => _user;
   bool get isAuthenticated => _token != null && _token!.isNotEmpty;
@@ -35,6 +40,7 @@ class AppState extends ChangeNotifier {
 
   Future<void> initialize() async {
     _locale = await _sessionStore.getLocale();
+    _themeMode = await _sessionStore.getThemeMode();
     _token = await _sessionStore.getToken();
     _user = await _sessionStore.getUser();
     _isInitialized = true;
@@ -45,6 +51,23 @@ class AppState extends ChangeNotifier {
     _locale = locale;
     await _sessionStore.saveLocale(locale);
     notifyListeners();
+  }
+
+  Future<void> setThemeMode(String mode) async {
+    _themeMode = mode;
+    await _sessionStore.saveThemeMode(mode);
+    notifyListeners();
+  }
+
+  Future<void> toggleThemeMode() async {
+    if (_themeMode == 'light') {
+      await setThemeMode('dark');
+    } else if (_themeMode == 'dark') {
+      await setThemeMode('light');
+    } else {
+      // If system or any other mode, default to dark
+      await setThemeMode('dark');
+    }
   }
 
   Future<void> login({required String email, required String password}) async {
