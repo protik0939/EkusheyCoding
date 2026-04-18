@@ -313,7 +313,7 @@ class _LanguageCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: Text(
-                  language.name.characters.first,
+                  language.getLocalizedName(locale).characters.first,
                   style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Theme.of(context).colorScheme.primary,
                     fontWeight: FontWeight.bold,
@@ -322,7 +322,7 @@ class _LanguageCard extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Text(
-                language.name,
+                language.getLocalizedName(locale),
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: Theme.of(
@@ -332,7 +332,7 @@ class _LanguageCard extends StatelessWidget {
               const SizedBox(height: 4),
               Expanded(
                 child: Text(
-                  language.shortDescription,
+                  language.getLocalizedShortDescription(locale),
                   maxLines: 3,
                   overflow: TextOverflow.ellipsis,
                   style: Theme.of(context).textTheme.bodySmall,

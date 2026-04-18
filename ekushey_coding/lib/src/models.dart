@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'data/strings.dart';
+
 class UserModel {
   const UserModel({
     required this.id,
@@ -430,6 +432,18 @@ class LanguageMeta {
   final String difficulty;
   final List<String> features;
   final List<String> useCases;
+
+  /// Get localized name for the programming language
+  String getLocalizedName(String locale) {
+    final key = 'lang_${id}_name';
+    return AppStrings.getByLocale(locale, key);
+  }
+
+  /// Get localized short description for the programming language
+  String getLocalizedShortDescription(String locale) {
+    final key = 'lang_${id}_desc';
+    return AppStrings.getByLocale(locale, key);
+  }
 }
 
 class DashboardStats {
