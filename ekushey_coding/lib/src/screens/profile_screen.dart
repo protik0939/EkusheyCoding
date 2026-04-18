@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
 
@@ -121,6 +122,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
+    final locale = appState.locale;
 
     if (!appState.isAuthenticated) {
       return GradientBackdrop(
@@ -140,14 +142,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   Expanded(
                     child: FilledButton(
                       onPressed: widget.onLogin,
-                      child: const Text('Login'),
+                      child: Text(AppStrings.getByLocale(locale, 'btn_login')),
                     ),
                   ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: OutlinedButton(
                       onPressed: widget.onSignup,
-                      child: const Text('Create Account'),
+                      child: Text(AppStrings.getByLocale(locale, 'btn_signup')),
                     ),
                   ),
                 ],
@@ -316,7 +318,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         );
                       },
                 icon: const Icon(Icons.logout_rounded),
-                label: const Text('Logout'),
+                label: Text(AppStrings.getByLocale(locale, 'logout')),
               ),
             ],
           ),

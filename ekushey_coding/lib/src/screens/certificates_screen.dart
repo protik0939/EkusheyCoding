@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../app_state.dart';
+import '../data/strings.dart';
 import '../widgets/common.dart';
 
 class CertificatesScreen extends StatelessWidget {
@@ -34,8 +37,12 @@ class CertificatesScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
+    final locale = appState.locale;
     return Scaffold(
-      appBar: AppBar(title: const Text('Certificates')),
+      appBar: AppBar(
+        title: Text(AppStrings.getByLocale(locale, 'certificates_title')),
+      ),
       body: GradientBackdrop(
         child: SafeArea(
           child: ListView(
@@ -74,7 +81,7 @@ class CertificatesScreen extends StatelessWidget {
                         FilledButton.tonalIcon(
                           onPressed: () {},
                           icon: const Icon(Icons.workspace_premium_rounded),
-                          label: const Text('Enroll'),
+                          label: Text(AppStrings.getByLocale(locale, 'enroll')),
                         ),
                       ],
                     ),

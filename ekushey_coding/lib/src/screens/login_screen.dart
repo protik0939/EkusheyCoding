@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../widgets/common.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -52,10 +53,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
+    final locale = appState.locale;
     final isBusy = context.watch<AppState>().isBusy;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Login')),
+      appBar: AppBar(
+        title: Text(AppStrings.getByLocale(locale, 'login_title')),
+      ),
       body: GradientBackdrop(
         child: SafeArea(
           child: ListView(
@@ -130,13 +135,20 @@ class _LoginScreenState extends State<LoginScreen> {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                : const Text('Login'),
+                                : Text(
+                                    AppStrings.getByLocale(
+                                      locale,
+                                      'login_button',
+                                    ),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: widget.onOpenSignup,
-                          child: const Text('No account? Create one'),
+                          child: Text(
+                            AppStrings.getByLocale(locale, 'no_account'),
+                          ),
                         ),
                       ],
                     ),

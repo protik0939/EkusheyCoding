@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../models.dart';
 import '../services.dart';
 import '../widgets/common.dart';
@@ -130,10 +131,13 @@ class _AdminScreenState extends State<AdminScreen>
   @override
   Widget build(BuildContext context) {
     final appState = context.watch<AppState>();
+    final locale = appState.locale;
 
     if (!appState.isAuthenticated || !appState.isAdmin) {
       return Scaffold(
-        appBar: AppBar(title: const Text('Admin')),
+        appBar: AppBar(
+          title: Text(AppStrings.getByLocale(locale, 'admin_title')),
+        ),
         body: const GradientBackdrop(
           child: SafeArea(
             child: Center(
@@ -153,7 +157,7 @@ class _AdminScreenState extends State<AdminScreen>
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Admin Panel'),
+        title: Text(AppStrings.getByLocale(locale, 'admin_panel_title')),
         bottom: TabBar(
           controller: _tabController,
           isScrollable: true,
@@ -189,7 +193,7 @@ class _AdminScreenState extends State<AdminScreen>
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _load,
         icon: const Icon(Icons.refresh_rounded),
-        label: const Text('Refresh'),
+        label: Text(AppStrings.getByLocale(locale, 'refresh')),
       ),
     );
   }

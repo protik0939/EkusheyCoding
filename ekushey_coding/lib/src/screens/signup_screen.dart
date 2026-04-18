@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../widgets/common.dart';
 
 class SignupScreen extends StatefulWidget {
@@ -59,10 +60,14 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appState = context.watch<AppState>();
+    final locale = appState.locale;
     final isBusy = context.watch<AppState>().isBusy;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('Signup')),
+      appBar: AppBar(
+        title: Text(AppStrings.getByLocale(locale, 'signup_title')),
+      ),
       body: GradientBackdrop(
         child: SafeArea(
           child: ListView(
@@ -176,13 +181,20 @@ class _SignupScreenState extends State<SignupScreen> {
                                       strokeWidth: 2,
                                     ),
                                   )
-                                : const Text('Create Account'),
+                                : Text(
+                                    AppStrings.getByLocale(
+                                      locale,
+                                      'signup_button',
+                                    ),
+                                  ),
                           ),
                         ),
                         const SizedBox(height: 8),
                         TextButton(
                           onPressed: widget.onOpenLogin,
-                          child: const Text('Already have an account? Login'),
+                          child: Text(
+                            AppStrings.getByLocale(locale, 'already_account'),
+                          ),
                         ),
                       ],
                     ),

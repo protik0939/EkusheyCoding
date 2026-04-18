@@ -6,6 +6,7 @@ import '../data/languages.dart';
 import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
+import 'tutorial_detail_screen.dart';
 
 class TutorialsScreen extends StatefulWidget {
   const TutorialsScreen({super.key, required this.onOpenLanguage});
@@ -210,6 +211,17 @@ class _TutorialGroupCard extends StatelessWidget {
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                 ),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 16),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute<void>(
+                      builder: (BuildContext context) => TutorialDetailScreen(
+                        tutorial: tutorial,
+                        locale: locale,
+                      ),
+                    ),
+                  );
+                },
               ),
             )
             .toList(),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
 
@@ -12,7 +13,9 @@ class BlogDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Blog Details')),
+      appBar: AppBar(
+        title: Text(AppStrings.getByLocale(locale, 'blog_details')),
+      ),
       body: GradientBackdrop(
         child: SafeArea(
           child: ListView(

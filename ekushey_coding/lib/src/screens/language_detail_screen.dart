@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../app_state.dart';
+import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
 
@@ -112,10 +113,10 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen>
         title: Text(widget.language.name),
         bottom: TabBar(
           controller: _tabController,
-          tabs: const <Tab>[
-            Tab(text: 'About'),
-            Tab(text: 'Tutorials'),
-            Tab(text: 'Exercises'),
+          tabs: <Tab>[
+            Tab(text: AppStrings.getByLocale(locale, 'about_tab')),
+            Tab(text: AppStrings.getByLocale(locale, 'tutorials_tab')),
+            Tab(text: AppStrings.getByLocale(locale, 'exercises_tab')),
           ],
         ),
       ),
@@ -126,8 +127,8 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen>
               : TabBarView(
                   controller: _tabController,
                   children: <Widget>[
-                    _AboutTab(language: widget.language),
-                    _TutorialsTab(tutorials: _tutorials),
+                    _AboutTab(language: widget.language, locale: locale),
+                    _TutorialsTab(tutorials: _tutorials, locale: locale),
                     _ExercisesTab(
                       exercises: _exercises,
                       locale: locale,
@@ -151,9 +152,10 @@ class _LanguageDetailScreenState extends State<LanguageDetailScreen>
 }
 
 class _AboutTab extends StatelessWidget {
-  const _AboutTab({required this.language});
+  const _AboutTab({required this.language, required this.locale});
 
   final LanguageMeta language;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -171,8 +173,16 @@ class _AboutTab extends StatelessWidget {
                 Wrap(
                   spacing: 8,
                   children: <Widget>[
-                    Chip(label: Text('Version: ${language.version}')),
-                    Chip(label: Text('Difficulty: ${language.difficulty}')),
+                    Chip(
+                      label: Text(
+                        '${AppStrings.getByLocale(locale, 'version')}: ${language.version}',
+                      ),
+                    ),
+                    Chip(
+                      label: Text(
+                        '${AppStrings.getByLocale(locale, 'difficulty')}: ${language.difficulty}',
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -180,7 +190,7 @@ class _AboutTab extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 10),
-        const SectionHeader(title: 'Key Features'),
+        SectionHeader(title: AppStrings.getByLocale(locale, 'key_features')),
         const SizedBox(height: 8),
         ...language.features.map(
           (f) => Card(
@@ -191,7 +201,7 @@ class _AboutTab extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 12),
-        const SectionHeader(title: 'Use Cases'),
+        SectionHeader(title: AppStrings.getByLocale(locale, 'use_cases')),
         const SizedBox(height: 8),
         ...language.useCases.map(
           (u) => Card(
@@ -207,9 +217,10 @@ class _AboutTab extends StatelessWidget {
 }
 
 class _TutorialsTab extends StatelessWidget {
-  const _TutorialsTab({required this.tutorials});
+  const _TutorialsTab({required this.tutorials, required this.locale});
 
   final List<TutorialItem> tutorials;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -234,7 +245,9 @@ class _TutorialsTab extends StatelessWidget {
               margin: const EdgeInsets.only(bottom: 10),
               child: ExpansionTile(
                 title: Text(t.title),
-                subtitle: Text('Lesson ${t.order}'),
+                subtitle: Text(
+                  '${AppStrings.getByLocale(locale, 'lesson')} ${t.order}',
+                ),
                 children: <Widget>[
                   Padding(
                     padding: const EdgeInsets.fromLTRB(14, 0, 14, 14),
@@ -334,9 +347,12 @@ class _ExercisesTab extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                const Text(
-                  'Quick Quiz',
-                  style: TextStyle(fontWeight: FontWeight.w800, fontSize: 18),
+                Text(
+                  AppStrings.getByLocale(locale, 'quick_quiz'),
+                  style: const TextStyle(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 18,
+                  ),
                 ),
                 const SizedBox(height: 8),
                 ...List<Widget>.generate(quiz.length, (index) {
@@ -384,11 +400,13 @@ class _ExercisesTab extends StatelessWidget {
                   children: <Widget>[
                     FilledButton(
                       onPressed: submittedQuiz ? null : onSubmitQuiz,
-                      child: const Text('Check Answers'),
+                      child: Text(
+                        AppStrings.getByLocale(locale, 'check_answers'),
+                      ),
                     ),
                     OutlinedButton(
                       onPressed: onResetQuiz,
-                      child: const Text('Reset'),
+                      child: Text(AppStrings.getByLocale(locale, 'reset')),
                     ),
                   ],
                 ),
