@@ -124,6 +124,9 @@ class AppStrings {
     // Blog Screen
     'page_blog': 'Blog',
     'blog_subtitle': 'Articles and insights from our community.',
+    'search_articles_hint': 'Search articles by title or topic...',
+    'load_more': 'Load More',
+    'loading': 'Loading...',
     'empty_blog_title': 'No articles available',
     'empty_blog_subtitle': 'Check back later for new content.',
     'posts_count': 'articles',
@@ -347,6 +350,9 @@ class AppStrings {
     // Blog Screen
     'page_blog': 'ব্লগ',
     'blog_subtitle': 'আমাদের কমিউনিটি থেকে নিবন্ধ এবং অন্তর্দৃষ্টি।',
+    'search_articles_hint': 'শিরোনাম বা টপিক দিয়ে নিবন্ধ খুঁজুন...',
+    'load_more': 'আরো লোড করুন',
+    'loading': 'লোড হচ্ছে...',
     'empty_blog_title': 'কোনো নিবন্ধ উপলব্ধ নেই',
     'empty_blog_subtitle': 'নতুন কন্টেন্টের জন্য পরে ফিরে দেখুন।',
     'posts_count': 'নিবন্ধ',

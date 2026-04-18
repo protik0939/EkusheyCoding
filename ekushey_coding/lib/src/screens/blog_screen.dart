@@ -121,10 +121,9 @@ class _BlogScreenState extends State<BlogScreen> {
             physics: const AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
             children: <Widget>[
-              const SectionHeader(
-                title: 'Coding Blog',
-                subtitle:
-                    'Discover practical coding guides and development insights.',
+              SectionHeader(
+                title: AppStrings.getByLocale(locale, 'page_blog'),
+                subtitle: AppStrings.getByLocale(locale, 'blog_subtitle'),
               ),
               const SizedBox(height: 12),
               TextField(
@@ -132,7 +131,7 @@ class _BlogScreenState extends State<BlogScreen> {
                 textInputAction: TextInputAction.search,
                 onSubmitted: (_) => _loadBlogs(reset: true),
                 decoration: InputDecoration(
-                  hintText: 'Search articles by title or topic...',
+                  hintText: AppStrings.getByLocale(locale, 'search_articles_hint'),
                   prefixIcon: const Icon(Icons.search_rounded),
                   suffixIcon: IconButton(
                     onPressed: () {
@@ -155,7 +154,9 @@ class _BlogScreenState extends State<BlogScreen> {
                     final selected = category == _selectedCategory;
                     return ChoiceChip(
                       selected: selected,
-                      label: Text(category),
+                      label: Text(category == 'All'
+                          ? AppStrings.getByLocale(locale, 'filter_all')
+                          : category),
                       onSelected: (_) {
                         setState(() => _selectedCategory = category);
                         _loadBlogs(reset: true);
@@ -181,9 +182,10 @@ class _BlogScreenState extends State<BlogScreen> {
                   ),
                 const SizedBox(height: 12),
                 if (_blogs.length <= 1)
-                  const EmptyStateCard(
-                    title: 'No blogs found',
-                    subtitle: 'Try a different search keyword or category.',
+                  EmptyStateCard(
+                    title: AppStrings.getByLocale(locale, 'empty_blog_title'),
+                    subtitle:
+                        AppStrings.getByLocale(locale, 'empty_blog_subtitle'),
                   )
                 else
                   ..._blogs
@@ -201,7 +203,7 @@ class _BlogScreenState extends State<BlogScreen> {
                 if (_page < _lastPage)
                   Padding(
                     padding: const EdgeInsets.only(top: 8),
-                    child: FilledButton.tonalIcon(
+            child: FilledButton.tonalIcon(
                       onPressed: _loadingMore
                           ? null
                           : () => _loadBlogs(reset: false),
@@ -212,7 +214,9 @@ class _BlogScreenState extends State<BlogScreen> {
                               child: CircularProgressIndicator(strokeWidth: 2),
                             )
                           : const Icon(Icons.expand_more_rounded),
-                      label: Text(_loadingMore ? 'Loading...' : 'Load More'),
+            label: Text(_loadingMore
+              ? AppStrings.getByLocale(locale, 'loading')
+              : AppStrings.getByLocale(locale, 'load_more')),
                     ),
                   ),
               ],
