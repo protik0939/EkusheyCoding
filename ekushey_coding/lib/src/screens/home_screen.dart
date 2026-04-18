@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
+import '../app_state.dart';
 import '../data/languages.dart';
+import '../data/strings.dart';
 import '../models.dart';
 import '../widgets/common.dart';
 
@@ -16,95 +19,131 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final columns = width >= 1200
-        ? 5
-        : width >= 900
-        ? 4
-        : width >= 700
-        ? 3
-        : 2;
+    return Consumer<AppState>(
+      builder: (BuildContext context, AppState appState, _) {
+        final width = MediaQuery.sizeOf(context).width;
+        final columns = width >= 1200
+            ? 5
+            : width >= 900
+            ? 4
+            : width >= 700
+            ? 3
+            : 2;
 
-    return GradientBackdrop(
-      child: SafeArea(
-        child: SingleChildScrollView(
-          padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: <Widget>[
-              _HeroCard(onOpenCertificates: onOpenCertificates),
-              const SizedBox(height: 20),
-              const _StatsRow(),
-              const SizedBox(height: 24),
-              SectionHeader(
-                title: 'Programming Languages',
-                subtitle:
-                    'Pick your track and start learning with tutorials and exercises.',
-                trailing: TextButton(
-                  onPressed: onOpenCertificates,
-                  child: const Text('Certificates'),
-                ),
-              ),
-              const SizedBox(height: 12),
-              GridView.builder(
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemCount: kLanguages.length,
-                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: columns,
-                  crossAxisSpacing: 10,
-                  mainAxisSpacing: 10,
-                  childAspectRatio: 1.05,
-                ),
-                itemBuilder: (BuildContext context, int index) {
-                  final language = kLanguages[index];
-                  return _LanguageCard(
-                    language: language,
-                    onTap: () => onOpenLanguage(language),
-                  );
-                },
-              ),
-              const SizedBox(height: 24),
-              const SectionHeader(
-                title: 'Why Ekushey Coding',
-                subtitle:
-                    'A responsive, bilingual, practical learning path inspired by your web platform.',
-              ),
-              const SizedBox(height: 12),
-              Wrap(
-                spacing: 10,
-                runSpacing: 10,
-                children: const <Widget>[
-                  _FeatureChip(
-                    icon: Icons.bolt_rounded,
-                    title: 'Hands-on Exercises',
+        return GradientBackdrop(
+          child: SafeArea(
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  _HeroCard(
+                    onOpenCertificates: onOpenCertificates,
+                    locale: appState.locale,
                   ),
-                  _FeatureChip(
-                    icon: Icons.language_rounded,
-                    title: 'English + Bangla Content',
+                  const SizedBox(height: 20),
+                  _StatsRow(locale: appState.locale),
+                  const SizedBox(height: 24),
+                  SectionHeader(
+                    title: AppStrings.getByLocale(
+                      appState.locale,
+                      'section_languages',
+                    ),
+                    subtitle: AppStrings.getByLocale(
+                      appState.locale,
+                      'section_languages_subtitle',
+                    ),
+                    trailing: TextButton(
+                      onPressed: onOpenCertificates,
+                      child: Text(
+                        AppStrings.getByLocale(
+                          appState.locale,
+                          'btn_certificates',
+                        ),
+                      ),
+                    ),
                   ),
-                  _FeatureChip(
-                    icon: Icons.school_rounded,
-                    title: 'Tutorial-First Learning',
+                  const SizedBox(height: 12),
+                  GridView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: kLanguages.length,
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: columns,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1.05,
+                    ),
+                    itemBuilder: (BuildContext context, int index) {
+                      final language = kLanguages[index];
+                      return _LanguageCard(
+                        language: language,
+                        locale: appState.locale,
+                        onTap: () => onOpenLanguage(language),
+                      );
+                    },
                   ),
-                  _FeatureChip(
-                    icon: Icons.dashboard_customize_rounded,
-                    title: 'Admin Management Ready',
+                  const SizedBox(height: 24),
+                  SectionHeader(
+                    title: AppStrings.getByLocale(
+                      appState.locale,
+                      'section_why',
+                    ),
+                    subtitle: AppStrings.getByLocale(
+                      appState.locale,
+                      'section_why_subtitle',
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Wrap(
+                    spacing: 10,
+                    runSpacing: 10,
+                    children: <Widget>[
+                      _FeatureChip(
+                        icon: Icons.bolt_rounded,
+                        title: AppStrings.getByLocale(
+                          appState.locale,
+                          'feature_hands_on',
+                        ),
+                      ),
+                      _FeatureChip(
+                        icon: Icons.language_rounded,
+                        title: AppStrings.getByLocale(
+                          appState.locale,
+                          'feature_bilingual',
+                        ),
+                      ),
+                      _FeatureChip(
+                        icon: Icons.school_rounded,
+                        title: AppStrings.getByLocale(
+                          appState.locale,
+                          'feature_tutorial_first',
+                        ),
+                      ),
+                      _FeatureChip(
+                        icon: Icons.dashboard_customize_rounded,
+                        title: AppStrings.getByLocale(
+                          appState.locale,
+                          'feature_admin',
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
-            ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
 class _HeroCard extends StatelessWidget {
-  const _HeroCard({required this.onOpenCertificates});
+  const _HeroCard({required this.onOpenCertificates, required this.locale});
 
   final VoidCallback onOpenCertificates;
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +162,7 @@ class _HeroCard extends StatelessWidget {
                 borderRadius: BorderRadius.circular(999),
               ),
               child: Text(
-                'Learn to Code. Build the Future.',
+                AppStrings.getByLocale(locale, 'hero_badge'),
                 style: Theme.of(context).textTheme.labelLarge?.copyWith(
                   color: Theme.of(context).colorScheme.primary,
                 ),
@@ -131,14 +170,14 @@ class _HeroCard extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             Text(
-              'Ekushey Coding Mobile',
+              AppStrings.getByLocale(locale, 'hero_title'),
               style: Theme.of(
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
             ),
             const SizedBox(height: 8),
             Text(
-              'Tutorials, exercises, blogs, profile tracking, and admin content management - all in one responsive Flutter app.',
+              AppStrings.getByLocale(locale, 'hero_description'),
               style: Theme.of(context).textTheme.bodyMedium,
             ),
             const SizedBox(height: 14),
@@ -149,12 +188,16 @@ class _HeroCard extends StatelessWidget {
                 FilledButton.icon(
                   onPressed: onOpenCertificates,
                   icon: const Icon(Icons.workspace_premium_rounded),
-                  label: const Text('Explore Certificates'),
+                  label: Text(
+                    AppStrings.getByLocale(locale, 'hero_btn_certificates'),
+                  ),
                 ),
                 OutlinedButton.icon(
                   onPressed: () {},
                   icon: const Icon(Icons.shield_outlined),
-                  label: const Text('Built for Mobile + Web'),
+                  label: Text(
+                    AppStrings.getByLocale(locale, 'hero_btn_platform'),
+                  ),
                 ),
               ],
             ),
@@ -166,22 +209,36 @@ class _HeroCard extends StatelessWidget {
 }
 
 class _StatsRow extends StatelessWidget {
-  const _StatsRow();
+  const _StatsRow({required this.locale});
+
+  final String locale;
 
   @override
   Widget build(BuildContext context) {
     return Row(
-      children: const <Widget>[
+      children: <Widget>[
         Expanded(
-          child: _StatTile(label: 'Languages', value: '12+'),
+          child: _StatTile(
+            locale: locale,
+            label: 'stat_languages',
+            value: '12+',
+          ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
-          child: _StatTile(label: 'Tutorials', value: '15+'),
+          child: _StatTile(
+            locale: locale,
+            label: 'stat_tutorials',
+            value: '15+',
+          ),
         ),
-        SizedBox(width: 10),
+        const SizedBox(width: 10),
         Expanded(
-          child: _StatTile(label: 'Exercises', value: '6+'),
+          child: _StatTile(
+            locale: locale,
+            label: 'stat_exercises',
+            value: '6+',
+          ),
         ),
       ],
     );
@@ -189,8 +246,13 @@ class _StatsRow extends StatelessWidget {
 }
 
 class _StatTile extends StatelessWidget {
-  const _StatTile({required this.label, required this.value});
+  const _StatTile({
+    required this.locale,
+    required this.label,
+    required this.value,
+  });
 
+  final String locale;
   final String label;
   final String value;
 
@@ -207,7 +269,10 @@ class _StatTile extends StatelessWidget {
                 context,
               ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w800),
             ),
-            Text(label, style: Theme.of(context).textTheme.bodySmall),
+            Text(
+              AppStrings.getByLocale(locale, label),
+              style: Theme.of(context).textTheme.bodySmall,
+            ),
           ],
         ),
       ),
@@ -216,9 +281,14 @@ class _StatTile extends StatelessWidget {
 }
 
 class _LanguageCard extends StatelessWidget {
-  const _LanguageCard({required this.language, required this.onTap});
+  const _LanguageCard({
+    required this.language,
+    required this.locale,
+    required this.onTap,
+  });
 
   final LanguageMeta language;
+  final String locale;
   final VoidCallback onTap;
 
   @override
@@ -272,7 +342,7 @@ class _LanguageCard extends StatelessWidget {
               Row(
                 children: <Widget>[
                   Text(
-                    'Open',
+                    AppStrings.getByLocale(locale, 'btn_open'),
                     style: Theme.of(context).textTheme.labelMedium?.copyWith(
                       color: Theme.of(context).colorScheme.primary,
                       fontWeight: FontWeight.w700,
